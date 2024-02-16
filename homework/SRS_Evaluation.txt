@@ -1,0 +1,42 @@
+
+
+Evaluation and Feedback
+CMSI 4072 project ~ Spring 2024
+Kelly Tao
+Doner game project
+==============================
+
+Software Requirements Specification Document:
+---------------------------------------------
+-- Introduction Section
+   Nice introduction to the document.  Check your spelling and grammar.  You
+   have an inconsistency in section 1.2 where you call your program 'Diner'.
+   Good that it's short, but a diagram might help in understanding exactly
+   what you are planning.  Either a diagram of the parts of your system,
+   or a mock-up of what the user interface will look like would be helpful,
+   but is not required.
+
+-- Functional Requirements
+   Wow, Kelly!  This is really really good!  You have enough requirements to
+   cover all the parts and the operations of your application, you have the
+   language down, and your use of 'will' statements to augment the 'shall'
+   statements is great!  I found a couple of places where you have multiple
+   'shall' statements under the same number.  Remember that EVERY 'shall'
+   needs its own number ~ it's the 'will' statements that are paired with
+   the 'shall' statements that aren't numbered.
+
+-- Performance Requirements
+   Same comment here as for functional requirements.
+
+-- Environment Requirements
+   This is perfect, no further comments from me, and nothing for you to do to
+   this section.
+
+=============================================================================
+your score:  9.5% out of 10% which is an A
+
+All in all, a GREAT first effort, you just need to revisit the numbering of
+your 'shall' statements.
+
+Make the changes as suggested above for the second submission and you'll get
+the full 10% on this document.
