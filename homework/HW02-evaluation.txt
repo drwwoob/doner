@@ -1,0 +1,43 @@
+
+Evaluation and Feedback
+CMSI 4072 project ~ Spring 2024
+Kelly Tao
+Doner game project
+Evaluation for homework02
+===============================
+
+5-1 component-based vs service-oriented             5 of  5 points
+5-2 most appropriate architecture for tictactoe     5 of  5 points
+5-4 internet chess appropriate architecture         5 of  5 points
+5-6 database for ClassyDraw                         4 of  5 points
+5-8 state machine diagram for floats               10 of 10 points
+6-1 compare/contrast ClassyDraw subclasses          9 of 10 points
+6-2 inheritance diagram from 6-1                   10 of 10 points
+
+
+Total possible score: 50 points
+
+EVALUATION
+============================================================================
+Your score: 48 out of 50 = 96.0% which is an A
+
+Comments:
+---------
+Nice work on this assignment.
+
+On 5.6 that's an interesting approach, having a document database rather
+than a relational one, or even a monolithic application.  You make a good
+case for this situation and you are the only person in the class to suggest
+that solution!  Cool!
+
+On 5.8 you have an interesting way of doing the signs and digits all in the
+same state, then following that with a digit entry action.  Very nice!
+
+There are quite a few spelling and/or grammar errors here.  Take your time
+to double check to make sure that doesn't happen in your writing!  You do
+such nice work, it's a shame to have it marred by this kind of error...
+
+....just sayin'....
+
+Good job overall, Kelly!  You are doing well, so keep it up!
+
