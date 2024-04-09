@@ -1,0 +1,68 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\14631\\OneDrive\\Desktop\\DT\\New folder\\drwwoob\\doner\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A53F89F4-8F0D-44C4-9EDE-A7491FF94A48}|doner\\doner.vcxproj|C:\\Users\\14631\\OneDrive\\Desktop\\DT\\New folder\\drwwoob\\doner\\doner\\doner.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A53F89F4-8F0D-44C4-9EDE-A7491FF94A48}|doner\\doner.vcxproj|solutionrelative:doner\\doner.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A53F89F4-8F0D-44C4-9EDE-A7491FF94A48}|doner\\doner.vcxproj|C:\\Users\\14631\\OneDrive\\Desktop\\DT\\New folder\\drwwoob\\doner\\doner\\doner.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A53F89F4-8F0D-44C4-9EDE-A7491FF94A48}|doner\\doner.vcxproj|solutionrelative:doner\\doner.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 190,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 176,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "doner.h",
+              "DocumentMoniker": "C:\\Users\\14631\\OneDrive\\Desktop\\DT\\New folder\\drwwoob\\doner\\doner\\doner.h",
+              "RelativeDocumentMoniker": "doner\\doner.h",
+              "ToolTip": "C:\\Users\\14631\\OneDrive\\Desktop\\DT\\New folder\\drwwoob\\doner\\doner\\doner.h",
+              "RelativeToolTip": "doner\\doner.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-04-09T12:48:43.597Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{f5cd1b51-c771-5648-966f-646d419b1e7c}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 224,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "doner.cpp",
+              "DocumentMoniker": "C:\\Users\\14631\\OneDrive\\Desktop\\DT\\New folder\\drwwoob\\doner\\doner\\doner.cpp",
+              "RelativeDocumentMoniker": "doner\\doner.cpp",
+              "ToolTip": "C:\\Users\\14631\\OneDrive\\Desktop\\DT\\New folder\\drwwoob\\doner\\doner\\doner.cpp",
+              "RelativeToolTip": "doner\\doner.cpp",
+              "ViewState": "AQIAALgAAAAAAAAAAAAuwCkBAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-04-09T12:35:13.187Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
