@@ -17,6 +17,8 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
+
 //
 //int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //                     _In_opt_ HINSTANCE hPrevInstance,
@@ -56,8 +58,6 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 //    return (int) msg.wParam;
 //}
 
-
-
 //
 //  FUNCTION: MyRegisterClass()
 //
@@ -78,6 +78,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_DONER);
+    //wcex.lpszMenuName   = nullptr;
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -174,6 +175,19 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         {
             EndDialog(hDlg, LOWORD(wParam));
             return (INT_PTR)TRUE;
+        }
+        switch (LOWORD((wParam))) {
+		case IDM_FILE_NEW:
+            break;
+		case IDM_FILE_OPEN:
+            break;
+	    case IDM_FILE_SAVE:
+            break;
+        case IDM_FILE_EXIT:
+            DestroyWindow(hDlg);
+        	break;
+		default:
+            return DefWindowProc(hDlg, message, wParam, lParam);
         }
         break;
     }
@@ -290,9 +304,25 @@ int main(int, char**)
 {
     // Create application window
     //ImGui_ImplWin32_EnableDpiAwareness();
-    WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
+
+	//// MENU
+ //   HMENU hMenu = CreateMenu();
+ //   HMENU hMenuPop = CreateMenu();
+    //AppendMenu(hMenuPop, MF_STRING, IDM_FILE_NEW, _T("New"));
+    //hMenuPop = Create
+
+    WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, MAKEINTRESOURCEW(IDC_DONER), L"Doner", nullptr };
     ::RegisterClassExW(&wc);
+    /*WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, szWindowClass, nullptr };
+    ::RegisterClassExW(&wc);*/
+
+	LoadStringW(wc.hInstance, IDC_DONER, szWindowClass, MAX_LOADSTRING);
     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Doner", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
+    //SetMenu(hwnd, hMenu);
+
+    //HWND hwnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+    //    CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInst, nullptr);
+    //SetMenu(hwnd, hMenu);
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
