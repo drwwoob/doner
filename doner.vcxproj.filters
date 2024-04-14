@@ -66,6 +66,9 @@
     <ClInclude Include="src\data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Page.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui Support\imgui.cpp">
@@ -102,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Page.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

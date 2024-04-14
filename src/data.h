@@ -1,18 +1,24 @@
 #pragma once
-#include <string>
-#include <vector>
 
+#include <map>
+
+#include "Page.h"
 #include "Tools.h"
 
 class data
 {
 public:
-	std::vector<std::string> spirits;
-	std::vector<std::string> texts;
-	//std::vector<>
+	data();
+	data(std::string fileName);
+	Page getPage(int pageID);
+	int leaveAt = 0;	// the page that the user left at last time
 
 private:
-	void readData(std::string fileName) {
-		
-	}
+	std::vector<Page> pages;
+	std::string fileName;
+	//std::map<Page> pages;
+
+	// a hash table that stores all pages? or array?
+
+	void readData(std::string name);
 };

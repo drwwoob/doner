@@ -140,6 +140,7 @@
     <ClInclude Include="src\data.h" />
     <ClInclude Include="src\doner.h" />
     <ClInclude Include="src\framework.h" />
+    <ClInclude Include="src\Page.h" />
     <ClInclude Include="src\Resource.h" />
     <ClInclude Include="src\targetver.h" />
     <ClInclude Include="src\Tools.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="src\cast.cpp" />
     <ClCompile Include="src\data.cpp" />
     <ClCompile Include="src\doner.cpp" />
+    <ClCompile Include="src\Page.cpp" />
     <ClCompile Include="src\Tools.cpp" />
   </ItemGroup>
   <ItemGroup>

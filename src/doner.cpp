@@ -1,9 +1,10 @@
-// doner.cpp : Defines the entry point for the application.
+﻿// doner.cpp : Defines the entry point for the application.
 //
 
 #include "framework.h"
 #include "doner.h"
 #include "Tools.h"
+#include "data.h"
 
 #define MAX_LOADSTRING 100
 
@@ -18,6 +19,9 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
+// ------------------some default----------------
+int pageAt = 0;
+data gameData = data();
 
 
 //
@@ -345,6 +349,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
 
+
+    // --------------------------get data info--------------------------------
+    pageAt = gameData.leaveAt;
+
+
+
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
     // - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
@@ -407,7 +417,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         //-----------------creating window-------------------
         if (show_cast_window)
-            cast::showCastWindow(&show_cast_window);
+            cast::showCastWindow(&show_cast_window, pageAt, gameData);
 
         //// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
         //{

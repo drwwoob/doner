@@ -8,11 +8,9 @@ ImGuiMarkerCallback             GImGuiMarkerCallback = NULL;
 void* GImGuiMarkerCallbackUserData = NULL;
 #define IMGUI_MARKER(section)  do { if (GImGuiMarkerCallback != NULL) GImGuiMarkerCallback(__FILE__, __LINE__, section, GImGuiMarkerCallbackUserData); } while (0)
 
-
-data gameStruc;
-
-void cast::showCastWindow(bool* p_open) {
+void cast::showCastWindow(bool* p_open, int pageID, data gameData) {
 	ImGuiWindowFlags window_flags = 0;
+	Page pageInfo = gameData.getPage(pageID);
 
 	if(!ImGui::Begin("Cast", p_open, window_flags)) {
 		ImGui::End();
@@ -28,8 +26,8 @@ void cast::showCastWindow(bool* p_open) {
 	IMGUI_MARKER("Spirit");
 	//ImGui::SetNextWindowCollapsed(false);
 	if (ImGui::CollapsingHeader("Spirit", ImGuiTreeNodeFlags_DefaultOpen)) {
-		for (const std::string spirit : gameStruc.spirits) {
-			ImGui::BulletText("(%s)", spirit);
+		for (auto spirit : pageInfo.spirits) {
+			ImGui::BulletText("(%s)",spirit);
 		}
 	}
 
