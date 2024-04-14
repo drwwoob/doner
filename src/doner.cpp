@@ -19,6 +19,7 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
+
 //
 //int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //                     _In_opt_ HINSTANCE hPrevInstance,
@@ -299,30 +300,23 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 
+
 // Main code
-int main(int, char**)
+//int main(int, char**)
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+                     _In_opt_ HINSTANCE hPrevInstance,
+                     _In_ LPWSTR    lpCmdLine,
+                     _In_ int       nCmdShow)
 {
     // Create application window
     //ImGui_ImplWin32_EnableDpiAwareness();
 
-	//// MENU
- //   HMENU hMenu = CreateMenu();
- //   HMENU hMenuPop = CreateMenu();
-    //AppendMenu(hMenuPop, MF_STRING, IDM_FILE_NEW, _T("New"));
-    //hMenuPop = Create
-
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, MAKEINTRESOURCEW(IDC_DONER), L"Doner", nullptr };
+    wc.hIconSm = LoadIcon(wc.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     ::RegisterClassExW(&wc);
-    /*WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, szWindowClass, nullptr };
-    ::RegisterClassExW(&wc);*/
 
 	LoadStringW(wc.hInstance, IDC_DONER, szWindowClass, MAX_LOADSTRING);
     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Doner", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
-    //SetMenu(hwnd, hMenu);
-
-    //HWND hwnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-    //    CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInst, nullptr);
-    //SetMenu(hwnd, hMenu);
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
@@ -344,8 +338,8 @@ int main(int, char**)
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsLight();
+    //ImGui::StyleColorsDark();
+    ImGui::StyleColorsLight();
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
@@ -371,6 +365,10 @@ int main(int, char**)
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+    //-----------------------menu window--------------------------
+    bool show_cast_window = true;
+
 
     // Main loop
     bool done = false;
@@ -403,15 +401,13 @@ int main(int, char**)
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
-        //-----------------creating window-------------------
-        {
-            ImGui::Begin("a window");
-            ImGui::End();
-        }
-
         //// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        //if (show_demo_window)
-        //    ImGui::ShowDemoWindow(&show_demo_window);
+        if (show_demo_window)
+            ImGui::ShowDemoWindow(&show_demo_window);
+
+        //-----------------creating window-------------------
+        if (show_cast_window)
+            cast::showCastWindow(&show_cast_window);
 
         //// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
         //{

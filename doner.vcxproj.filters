@@ -57,6 +57,15 @@
     <ClInclude Include="src\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gameBasis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui Support\imgui.cpp">
@@ -86,12 +95,24 @@
     <ClCompile Include="src\Tools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gameBasis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="doner.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="x64\Debug\logo_pr.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

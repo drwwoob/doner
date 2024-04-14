@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="gameBasis.h" />
     <ClInclude Include="imgui Support\imconfig.h" />
     <ClInclude Include="imgui Support\imgui.h" />
     <ClInclude Include="imgui Support\imgui_impl_dx11.h" />
@@ -135,6 +136,8 @@
     <ClInclude Include="imgui Support\imstb_rectpack.h" />
     <ClInclude Include="imgui Support\imstb_textedit.h" />
     <ClInclude Include="imgui Support\imstb_truetype.h" />
+    <ClInclude Include="src\cast.h" />
+    <ClInclude Include="src\data.h" />
     <ClInclude Include="src\doner.h" />
     <ClInclude Include="src\framework.h" />
     <ClInclude Include="src\Resource.h" />
@@ -142,6 +145,7 @@
     <ClInclude Include="src\Tools.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gameBasis.cpp" />
     <ClCompile Include="imgui Support\imgui.cpp" />
     <ClCompile Include="imgui Support\imgui_demo.cpp" />
     <ClCompile Include="imgui Support\imgui_draw.cpp" />
@@ -149,12 +153,15 @@
     <ClCompile Include="imgui Support\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui Support\imgui_tables.cpp" />
     <ClCompile Include="imgui Support\imgui_widgets.cpp" />
+    <ClCompile Include="src\cast.cpp" />
+    <ClCompile Include="src\data.cpp" />
     <ClCompile Include="src\doner.cpp" />
     <ClCompile Include="src\Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="doner.ico" />
     <Image Include="small.ico" />
+    <Image Include="x64\Debug\logo_pr.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\doner.rc" />
