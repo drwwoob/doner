@@ -1,0 +1,10 @@
+Doner V0.1
+Editing engine part:
+    - Created window and taskbar with buttons referencing the settings
+
+
+Doner V0.1.1
+Editing engine part:
+    - Created the window inside the application that could show the Cast list (could be closed)
+    - Updated SRS
+    - Updated SDD
