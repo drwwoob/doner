@@ -8,11 +8,20 @@
 #include "../imgui Support/imstb_textedit.h"
 #include "../imgui Support/imstb_truetype.h"
 #include <d3d11.h>
+#include <string>
 #pragma comment(lib, "d3d11.lib")
+
+//image loading helper
+
 
 //#include "cast.h"
 
 class Tools
 {
+public:
+	void pageBar();
+	static void setBackground(std::string background_name);
+	//helper function
+	static bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);
 };
 

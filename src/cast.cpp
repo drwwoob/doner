@@ -8,9 +8,10 @@ ImGuiMarkerCallback             GImGuiMarkerCallback = NULL;
 void* GImGuiMarkerCallbackUserData = NULL;
 #define IMGUI_MARKER(section)  do { if (GImGuiMarkerCallback != NULL) GImGuiMarkerCallback(__FILE__, __LINE__, section, GImGuiMarkerCallbackUserData); } while (0)
 
-void cast::showCastWindow(bool* p_open, int pageID, data gameData) {
+
+void cast::showCastWindow(bool* p_open, int pageID, Page pageInfo) {
 	ImGuiWindowFlags window_flags = 0;
-	Page pageInfo = gameData.getPage(pageID);
+	//Page pageInfo = gameData.getPage(pageID);
 
 	if(!ImGui::Begin("Cast", p_open, window_flags)) {
 		ImGui::End();
@@ -27,9 +28,13 @@ void cast::showCastWindow(bool* p_open, int pageID, data gameData) {
 	//ImGui::SetNextWindowCollapsed(false);
 	if (ImGui::CollapsingHeader("Spirit", ImGuiTreeNodeFlags_DefaultOpen)) {
 		for (auto spirit : pageInfo.spirits) {
-			ImGui::BulletText("(%s)",spirit);
+			ImGui::BulletText("(%s)",spirit.c_str());
 		}
 	}
-
+	if (ImGui::CollapsingHeader("Textbox", ImGuiTreeNodeFlags_DefaultOpen)) {
+		for (auto textboxs : pageInfo.textboxs) {
+			ImGui::BulletText("(%s)", textboxs.c_str());
+		}
+	}
 	ImGui::End();
 }

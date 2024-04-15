@@ -4,7 +4,7 @@
 class cast
 {
 public:
-	static void showCastWindow(bool* p_open, int pageID, data gameData);
+	static void showCastWindow(bool* p_open, int pageID, Page pageInfo);
 private:
 	//data GameStruc;
 };

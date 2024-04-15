@@ -9,8 +9,8 @@ class data
 {
 public:
 	data();
-	data(std::string fileName);
-	Page getPage(int pageID);
+	data(std::string file_name);
+	Page getPage(int page_id);
 	int leaveAt = 0;	// the page that the user left at last time
 
 private:
