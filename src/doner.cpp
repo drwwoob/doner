@@ -23,7 +23,25 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 // ------------------some default----------------
 int pageAt = 0;
-data gameData = data();
+//TCHAR buffer[MAX_PATH] = { 0 };
+////GetModuleFileName(NULL, buffer, MAX_PATH);
+//std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
+//auto wpath = std::wstring(buffer).substr(0, pos);
+//
+////setup converter
+//using convert_type = std::codecvt_utf8<wchar_t>;
+//std::wstring_convert<convert_type, wchar_t> converter;
+//
+////use converter (.to_bytes: wstr->str, .from_bytes: str->wstr)
+//std::string Path = converter.to_bytes(wpath);
+////std::string Path(wpath.begin(), wpath.end());
+//std::string demoLocation = Path.append("\\..\\..\\doner\\projects storage\\demo\\");
+auto PathLoc = std::string(__FILE__).find_last_of("\\/");
+auto Path = std::string(__FILE__).substr(0, PathLoc).append("\\..\\projects storage\\");
+auto DemoLocation = Path.append("demo\\");
+
+data gameData = data(Path);
+//data gameData = data(DemoLocation.append("demo.txt"));
 //int my_image_width = 0;
 //int my_image_height = 0;
 //ID3D11ShaderResourceView* my_texture = NULL;
@@ -371,8 +389,9 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         }
         switch (LOWORD((wParam))) {
         case IDM_FILE_NEW:
+            gameData.newFile();  
             break;
-        case IDM_FILE_OPEN:
+    case IDM_FILE_OPEN:
             break;
         case IDM_FILE_SAVE:
             break;
@@ -440,7 +459,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
-    ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
+    ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext); \
+
+
+
 
     //--------------------initialize image texture--------------
 
@@ -449,29 +471,22 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //    //ImGui::GetBackgroundDrawList()->
     //}
     //else {
-    TCHAR buffer[MAX_PATH] = { 0 };
-    GetModuleFileName(NULL, buffer, MAX_PATH);
-    std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-    auto wpath = std::wstring(buffer).substr(0, pos);
-    std::string path(wpath.begin(), wpath.end());
-    path.append("\\..\\..\\doner\\projects storage\\demo\\sky.jpg");
 
-    ////struct stat buf;
-    ////stat(path.c_str(), &buf);
-    //ImGui::Begin(path.c_str());/*
-    //ImGui::Text("-----------------------------%d", buf.st_size);
-    //ImGui::Text("-----------%s", buf.st_mode);*/
-    //ImGui::End();
+	int my_image_width = 0;
+	int my_image_height = 0;
+	ID3D11ShaderResourceView* my_texture = NULL;
+	//bool ret = Tools::LoadTextureFromFile(background_name.c_str(), &my_texture, &my_image_width, &my_image_height);
 
-    int my_image_width = 0;
-    int my_image_height = 0;
-    ID3D11ShaderResourceView* my_texture = NULL;
-    //bool ret = Tools::LoadTextureFromFile(background_name.c_str(), &my_texture, &my_image_width, &my_image_height);
-    bool ret = LoadTextureFromFile(path.c_str(), &my_texture, &my_image_width, &my_image_height);
-    IM_ASSERT(ret);
-    //ImGui::GetBackgroundDrawList()->AddImage((void*)my_texture,ImVec2(0, 0), ImVec2(my_image_width, my_image_height), ImVec2(0, 0), ImVec2(1, 1));
-    //ImGui::Image((void*)my_texture, ImVec2(my_image_width, my_image_height));
-//}
+	// ---------------------need to change------------------------
+    // the follow code are for the background to show, name need to be change
+
+	//bool ret = LoadTextureFromFile(demoLocation.append("sky.jpg").c_str(), &my_texture, &my_image_width, &my_image_height);
+	//IM_ASSERT(ret);
+
+
+	//ImGui::GetBackgroundDrawList()->AddImage((void*)my_texture,ImVec2(0, 0), ImVec2(my_image_width, my_image_height), ImVec2(0, 0), ImVec2(1, 1));
+	//ImGui::Image((void*)my_texture, ImVec2(my_image_width, my_image_height));
+	//}
 
 
     // --------------------------get data info--------------------------------
@@ -497,6 +512,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // Our state
     bool show_demo_window = true;
+    bool show_welcome_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -534,6 +550,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
+
+
+        // ---------------testing center -------------------------
+    /*    ImGui::Begin("testing");
+        ImGui::Text("%s", Path.c_str());
+        ImGui::End();*/
+
+        // -------------------welcoming scene ------------------
+        if (show_welcome_window) {
+            cast::showWelcomePage(gameData, &show_welcome_window);
+        }
 
         //// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)

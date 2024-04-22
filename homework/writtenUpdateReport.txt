@@ -13,8 +13,17 @@ V0.1.3
 Creating Visual part:
     - Created visualization section to present the page to the user (not connected to the engine yet, the parts are presented as
 functions inside main instead of in the visualizing section)
-	- which started with showing backgronud
+    	- which started with showing backgronud
     - Updated structures for the project, including seperating the function and instances for pages, tools and cast
     - Updated the structure on how the data would be stored
     - Created demo page
     - included library from stb_image.h
+
+V0.1.4
+Creatin engine part:
+    - Adding common item dialog window for "file new" and "file open" operations, now the user can choose the folder to create a file or the file to modify (not finished yet)
+    - Updating "data.cpp"'s methods and structure 
+    - Creating welcoming window for the user to start the program with choices on creating or opening a file
+    - Updating demo file
+    - Updating the logic to get file address
+    - Changed the connection between classes for reading and writing

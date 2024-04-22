@@ -38,3 +38,20 @@ void cast::showCastWindow(bool* p_open, int pageID, Page pageInfo) {
 	}
 	ImGui::End();
 }
+
+void cast::showWelcomePage(data gameData, bool* show_welcome_window) {
+	ImGui::Begin("Welcome Page");
+	if (ImGui::Button("New", ImVec2(-FLT_MIN, 80))) {
+		gameData.newFile();
+		*show_welcome_window = false;
+	}
+	if(ImGui::Button("Open", ImVec2(-FLT_MIN, 80))) {
+		*show_welcome_window = false;
+		
+	}
+	if(ImGui::Button("Demo", ImVec2(-FLT_MIN, 80))) {
+		*show_welcome_window = false;
+		
+	}
+	ImGui::End();
+}

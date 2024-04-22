@@ -5,7 +5,10 @@ class cast
 {
 public:
 	static void showCastWindow(bool* p_open, int pageID, Page pageInfo);
+	//void showWelcomePage(bool& showing);
+	static void showWelcomePage(data gameData, bool* show_welcome_window);
 private:
+
 	//data GameStruc;
 };
 

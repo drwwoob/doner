@@ -9,12 +9,13 @@ class Page {
 public:
 	std::vector<std::string> spirits;
 	std::vector<std::string> textboxs;
-	std::string	backgroundName = "1";
+	std::string	backgroundName = "last";
 	int pageId;
+	//Page();
 	Page(int page_id);
 	//void visualizePage();
-	std::vector<std::string> exportInString();	// putting all the information in this page into a vector
-	/* in the sequence of
-	[backgroundName, spirits.iter, textboxs.iter]
+	std::string exportInString();	// putting all the information in this page into a string
+	/* in the format of
+	[backgroundName, {spirit1, spirit2, spirit3}, {textbox1, textbox2}]
 	*/
 };
