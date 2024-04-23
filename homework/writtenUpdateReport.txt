@@ -34,3 +34,13 @@ Updating Architectural part:
     - Adding encryption and decryption through each step
     - Updating reading functions for data (not done yet)
     - Updating how demo file is opened
+
+V0.1.5.2
+Updating engine part:
+    - Can read from files (FINALLY!) and theoriatically can write (with the export functions ready)
+    - The demo file is now functioning
+    - The function of "opening a file", "welcoming page will closed as a file is choosen", and "the file can be viewed as it is chosen" is implemented 
+Updating Visual part:
+    - Can view the background which is saved into the file
+	- the background will now fit the size of the window
+    - Adding default background

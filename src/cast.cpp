@@ -28,7 +28,7 @@ void cast::showCastWindow(bool* p_open, int pageID, Page pageInfo) {
 	//ImGui::SetNextWindowCollapsed(false);
 	if (ImGui::CollapsingHeader("Spirit", ImGuiTreeNodeFlags_DefaultOpen)) {
 		for (auto spirit : pageInfo.spirits) {
-			ImGui::BulletText("(%s)",spirit.name());
+			ImGui::BulletText("(%s)",spirit.name().c_str());
 		}
 	}
 	if (ImGui::CollapsingHeader("Textbox", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -39,19 +39,19 @@ void cast::showCastWindow(bool* p_open, int pageID, Page pageInfo) {
 	ImGui::End();
 }
 
-void cast::showWelcomePage(data gameData, bool* show_welcome_window) {
+void cast::showWelcomePage(data* gameData, bool* show_welcome_window, bool* start_visual) {
 	ImGui::Begin("Welcome Page");
 	if (ImGui::Button("New", ImVec2(-FLT_MIN, 80))) {
-		gameData.newFile();
+		gameData->newFile(start_visual);
 		*show_welcome_window = false;
 	}
 	if(ImGui::Button("Open", ImVec2(-FLT_MIN, 80))) {
-		gameData.openFile();
+		gameData->openFile(start_visual);
 		*show_welcome_window = false;
 		
 	}
 	if(ImGui::Button("Demo", ImVec2(-FLT_MIN, 80))) {
-		gameData.openFile();
+		gameData->openDemo(start_visual);
 		*show_welcome_window = false;
 		
 	}

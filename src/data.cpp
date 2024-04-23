@@ -1,5 +1,6 @@
 #include "data.h"
 
+#include <fstream>
 #include <windows.h>
 #include <shobjidl.h> 
 
@@ -10,6 +11,7 @@ data::data(std::string file_path)
 	//QString myDir = QFileDialog::getExistingDirectory();
 
     // initiate demoPath
+    filePathStr = file_path;
     demoPath = file_path.append("demo\\");
 
     // turn file_path into pwstr
@@ -27,20 +29,50 @@ data::data(std::string file_path)
 	// save this file with a blank page into the location the user choose
 }
 
-void data::newFile()
+void data::newFile(bool* start_visual)
 {
     basicFileOpen(false);
     pages = {Page(0)};
 }
 
-void data::openFile()
+void data::openFile(bool* start_visual)
 {
     basicFileOpen(true);
     decryptFile(fileData);
 }
-void data::openDemo() {
-	
+
+void data::openDemo(bool* start_visual) {
+    std::ifstream demoFile(demoPath + "demo.txt");
+    if (!demoFile.is_open()) {
+        // error window popup
+        //ImGui::Begin("Oops");
+        //ImGui::OpenPopup("ladojf");
+        //ImGui::End();
+    }
+    this->fileData = "";
+    this->forTest += 100;
+    filePathStr = demoPath;
+    std::string str;
+    while (std::getline(demoFile, str))
+    //while(demoFile >> str)
+    {
+        fileData.append(str);
+        fileData.append("\n");
+    }
+    pages.clear();
+    decryptFile(fileData);
+    
+    *start_visual = true;
 }
+
+void data::visualizeData(HWND hWnd, HBITMAP background_path, int page_id) {
+    pages.at(page_id).visualizePage(hWnd, background_path, filePathStr);
+}
+
+void data::visualizeData3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize, int page_id) {
+    pages.at(page_id).visualizePage3(g_pd3dDevice, windowSize, filePathStr);
+}
+
 
 Page data::getPage(int page_id) {
 	return data::pages.at(page_id);
@@ -69,6 +101,7 @@ void data::decryptFile(std::string data_str)
                 pos++;
             }
             pages.emplace_back(pageID, data_str.substr(start, pos));
+            forTest += 1;
             pageID++;
             pos++;
 	    }

@@ -22,6 +22,5 @@ public:
 	void pageBar();
 	static void setBackground(std::string background_name);
 	//helper function
-	static bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);
 };
 
