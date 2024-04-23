@@ -38,7 +38,6 @@ int pageAt = 0;
 //std::string demoLocation = Path.append("\\..\\..\\doner\\projects storage\\demo\\");
 auto PathLoc = std::string(__FILE__).find_last_of("\\/");
 auto Path = std::string(__FILE__).substr(0, PathLoc).append("\\..\\projects storage\\");
-auto DemoLocation = Path.append("demo\\");
 
 data gameData = data(Path);
 //data gameData = data(DemoLocation.append("demo.txt"));
@@ -363,6 +362,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
 // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
 // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
@@ -413,8 +413,6 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
-
-
 
 // Main code
 //int main(int, char**)
@@ -491,8 +489,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // --------------------------get data info--------------------------------
     pageAt = gameData.leaveAt;
-
-
 
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.

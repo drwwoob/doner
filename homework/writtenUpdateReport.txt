@@ -27,3 +27,10 @@ Creatin engine part:
     - Updating demo file
     - Updating the logic to get file address
     - Changed the connection between classes for reading and writing
+
+V0.1.5
+Updating Architectural part:
+    - Split Spirit and Textbox away from Cast, they are Classes now
+    - Adding encryption and decryption through each step
+    - Updating reading functions for data (not done yet)
+    - Updating how demo file is opened

@@ -8,6 +8,11 @@ data::data(std::string file_path)
 	// pop up a window to let the user choose a places to save
 	// and let them put in the name for the file
 	//QString myDir = QFileDialog::getExistingDirectory();
+
+    // initiate demoPath
+    demoPath = file_path.append("demo\\");
+
+    // turn file_path into pwstr
 	size_t size = file_path.length();
 	wchar_t* buffer = new wchar_t[size + 1];
 	MultiByteToWideChar(CP_ACP, 0, file_path.c_str(), size, buffer, size * sizeof(wchar_t));
@@ -24,14 +29,17 @@ data::data(std::string file_path)
 
 void data::newFile()
 {
-    basicFileOpen();
+    basicFileOpen(false);
     pages = {Page(0)};
 }
 
 void data::openFile()
 {
-    basicFileOpen();
-    decryptFile();
+    basicFileOpen(true);
+    decryptFile(fileData);
+}
+void data::openDemo() {
+	
 }
 
 Page data::getPage(int page_id) {
@@ -49,8 +57,22 @@ std::string data::encryptIntoFile()
     return pagesInfo;
 }
 
-void data::decryptFile()
+void data::decryptFile(std::string data_str)
 {
+    int pos = 0;
+    int start = 0;
+    int pageID = 0;
+    while(pos < data_str.size()) {
+	    if(data_str.at(pos++) == '[') { // whether pos is '[', go to the next letter
+            start = pos;
+            while(data_str.at(pos) != ']') {
+                pos++;
+            }
+            pages.emplace_back(pageID, data_str.substr(start, pos));
+            pageID++;
+            pos++;
+	    }
+    }
 }
 
 //
@@ -63,7 +85,7 @@ void data::decryptFile()
 
 // from windows example
 // https://learn.microsoft.com/en-us/windows/win32/learnwin32/example--the-open-dialog-box
-HRESULT data::basicFileOpen() {
+HRESULT data::basicFileOpen(bool findFile) {
     HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED |
         COINIT_DISABLE_OLE1DDE);
     if (SUCCEEDED(hr))

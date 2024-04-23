@@ -144,7 +144,9 @@
     <ClInclude Include="src\framework.h" />
     <ClInclude Include="src\Page.h" />
     <ClInclude Include="src\Resource.h" />
+    <ClInclude Include="src\Spirit.h" />
     <ClInclude Include="src\targetver.h" />
+    <ClInclude Include="src\Textbox.h" />
     <ClInclude Include="src\Tools.h" />
   </ItemGroup>
   <ItemGroup>
