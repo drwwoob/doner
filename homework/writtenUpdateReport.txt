@@ -44,3 +44,12 @@ Updating Visual part:
     - Can view the background which is saved into the file
 	- the background will now fit the size of the window
     - Adding default background
+
+V0.1.6
+Updating visual part:
+    - Now you can view spirit casts too!
+	- adding parts for class Spirit
+	- Need to work with memory wise though
+    - Able to read string and load it into spirit with encryption
+Updating demo:
+    - FABULOUS, FANCINATING drawing added to use as spirit case and cg

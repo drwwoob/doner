@@ -17,6 +17,7 @@ public:
 	std::vector<std::string> textboxs;
 	// std::vector<std::string> textboxs settings;
 	std::string	backgroundName;
+	//std::string path;
 	int pageId;
 	Page();
 	Page(int page_id);
@@ -34,8 +35,10 @@ public:
 	//pageID[backgroundName{spirit1##spirit2##spirit3##}{textbox1##textbox2##}]
 
 private:
+	static void showSpirit(std::string file_path, Spirit spirit, ImVec2 window_size, ID3D11Device* g_pd3dDevice);
 	static bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height, ID3D11Device* g_pd3dDevice);
-	static std::string wordEncrypt(std::string word);
+	//static std::string wordEncrypt(std::string word);
+
 	/*exceptions:
 	 *	# -> /#
 	 *	/ -> //

@@ -1,6 +1,7 @@
 ﻿#include "Page.h"
 
 #define STB_IMAGE_IMPLEMENTATION
+#include "data.h"
 #include "../other Support/stb_image.h"
 
 Page::Page() {
@@ -25,17 +26,54 @@ Page::Page(int page_id, std::string page_data)
 	pos++;
 	auto start = pos; // start of spirits
 	bool inGroup = true;
+	auto end = pos;
 
-	// get the spirits
+	// get the spirits data string
 	while(inGroup) {
-		if (page_data.at(pos) == '/') {
+		if(page_data.at(pos) == '}') { // find the first "}" without / infront
+			inGroup = false;
+			end = pos;
+		}
+		if (page_data.at(pos) == '/') { // to skip what comes after '/'
 			pos += 1;
 		}
-		else if(page_data.at(pos) == '}') { // find the first "}" without / infront
-			inGroup = false;
-			spirits.emplace_back(page_data.substr(start, pos));
-		}
 		pos++;
+	}
+
+	auto spiritsData = page_data.substr(start, end);
+	auto s_start = 0;
+	auto s_end = spiritsData.find("##");
+	while( s_end != std::string::npos) {
+		auto spiritData = spiritsData.substr(s_start, s_end);
+		// get each element
+		std::string seperateData[6]; // strings for each parameter
+		int para = 0;
+		for (auto s_pos = 0; s_pos < spiritData.size();  s_pos++) {
+			switch (spiritData.at(s_pos)) {
+			case '/':
+				s_pos++;
+				seperateData[para] += spiritData.at(s_pos);
+				break;
+			case '#':
+				para++;
+				break;
+				//if(spiritData.at(s_pos + 1) == '#')
+			default:
+				seperateData[para] += spiritData.at(s_pos);
+				break;
+			}
+		}
+
+		//if(para == 0) {
+		//	spirits.emplace_back(seperateData[0]);
+		//}
+
+		if(para == 5) {
+			spirits.emplace_back(seperateData[0], seperateData[1],
+				std::stof(seperateData[2]), std::stof(seperateData[3]), std::stof(seperateData[4]), std::stof(seperateData[5]));
+		}
+		s_start = s_end + 2;
+		s_end = spiritsData.find("##", s_end + 2);
 	}
 	inGroup = true;
 	
@@ -85,6 +123,9 @@ void Page::visualizePage3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize, std::st
 	auto back_path = file_path_str + backgroundName;
 
 	showBackGround(back_path, windowSize, g_pd3dDevice);
+	for (auto spirit : spirits) {
+		showSpirit(file_path_str, spirit, windowSize, g_pd3dDevice);
+	}
 
 	////pmax for ImGui::GetWindowContentRegionMax()
 }
@@ -95,11 +136,36 @@ void Page::showBackGround(std::string file_name, ImVec2 windowSize, ID3D11Device
 	ID3D11ShaderResourceView* my_texture = NULL;
 
 	bool ret = LoadTextureFromFile(file_name.c_str(), &my_texture, &my_image_width, &my_image_height, g_pd3dDevice);
+	if(!ret) {
+		// a popup window saying no background picture found
+	}
+
 	ImGui::GetBackgroundDrawList()->AddImage((void*)my_texture, ImVec2(0, 0),
 		windowSize, ImVec2(0, 0), ImVec2(1, 1));
-
-
 }
+
+void Page::showSpirit(std::string file_path, Spirit spirit, ImVec2 window_size, ID3D11Device* g_pd3dDevice) {
+	int my_image_width = 0;
+	int my_image_height = 0;
+	ID3D11ShaderResourceView* my_texture = NULL;
+
+	auto spiritPathName = file_path + spirit.fileName();
+
+	bool ret = LoadTextureFromFile(spiritPathName.c_str(), &my_texture, &my_image_width, &my_image_height, g_pd3dDevice);
+	if(!ret) {
+		// error popup for not finding spirit
+	}
+	auto imgSize = spirit.getSize(my_image_width, my_image_height);
+	auto topLeft = spirit.getPosition(window_size.x, window_size.y);
+
+	// ---------------------to change---------------------
+	// im thinking the uv for here can change so that the whole picture does not to be added,
+	// but only the part inside the window
+	ImGui::GetBackgroundDrawList()->AddImage((void*)my_texture, topLeft,
+		ImVec2(topLeft.x + imgSize.x, topLeft.y + imgSize.y),
+		ImVec2(0, 0), ImVec2(1, 1));
+}
+
 
 
 std::string Page::exportInString()
@@ -112,14 +178,14 @@ std::string Page::exportInString()
 	// add spirits
 	encrypt.append("{");
 	for(auto spirit : spirits) {
-		encrypt.append(wordEncrypt(spirit.toString()));
+		encrypt.append(spirit.toString());
 	}
 	encrypt.append("}");
 
 	// add textboxs;
 	encrypt.append("{");
 	for (auto textbox : textboxs) {
-		encrypt.append(wordEncrypt(textbox));
+		encrypt.append(textbox);
 	}
 	encrypt.append("}");
 	
@@ -127,30 +193,6 @@ std::string Page::exportInString()
 	// ending this page
 	encrypt.append("]");
 	return encrypt;
-}
-
-std::string Page::wordEncrypt(std::string word) {
-	std::string EncryptedWord;
-	for (const auto letter : word) {
-		switch(letter) {
-		case '#':
-			EncryptedWord.append("/#");
-			break;
-		case '/':
-			EncryptedWord.append("//");
-			break;
-		case '{':
-			EncryptedWord.append("/{");
-			break;
-		case '}':
-			EncryptedWord.append("/}");
-			break;
-		default:
-			EncryptedWord.push_back(letter);
-		}
-
-	}
-	return EncryptedWord;
 }
 
 

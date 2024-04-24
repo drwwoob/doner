@@ -21,6 +21,7 @@ class Tools
 public:
 	void pageBar();
 	static void setBackground(std::string background_name);
+	static std::string wordEncrypt(std::string word);
 	//helper function
 };
 

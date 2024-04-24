@@ -1,1 +1,1 @@
-[sky.jpg{}{}]
+[sky.jpg{cast1#demoSpirit1.png#1.0#1.0#0.15#0.15##}{}]
