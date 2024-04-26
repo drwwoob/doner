@@ -78,6 +78,9 @@
     <ClInclude Include="other Support\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="imgui Support\imgui_stdlib.h">
+      <Filter>imgui support</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui Support\imgui.cpp">
@@ -118,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="src\Page.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui Support\imgui_stdlib.cpp">
+      <Filter>imgui support</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

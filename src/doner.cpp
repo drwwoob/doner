@@ -36,7 +36,7 @@ int pageAt = 0;
 //std::string demoLocation = Path.append("\\..\\..\\doner\\projects storage\\demo\\");
 auto PathLoc = std::string(__FILE__).find_last_of("\\/");
 auto Path = std::string(__FILE__).substr(0, PathLoc).append("\\..\\projects storage\\");
-auto DefaultBackground = Path + "defaultBackground.jpg";
+auto DefaultBackground = Path + "src\\defaultBackground.jpg";
 //auto w_DefaultB = std::wstring(DefaultBackground.begin(), DefaultBackground.end()).c_str();
 data gameData = data(Path);
 
@@ -440,6 +440,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDM_FILE_OPEN:
             break;
         case IDM_FILE_SAVE:
+            gameData.save();
             break;
         case IDM_FILE_EXIT:
             DestroyWindow(hWnd);
@@ -512,7 +513,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
-    ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext); \
+    ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext); 
 
 
 
@@ -601,6 +602,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             CleanupRenderTarget();
             g_pSwapChain->ResizeBuffers(0, g_ResizeWidth, g_ResizeHeight, DXGI_FORMAT_UNKNOWN, 0);
             g_ResizeWidth = g_ResizeHeight = 0;
+
+			// get the size
+            windowSize = ImVec2(rect.right - rect.left, rect.bottom - rect.top);
+
+
             CreateRenderTarget();
         }
 
@@ -635,10 +641,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         //gameData.getPage(pageAt).visualizePage();
 
 
-        if (GetWindowRect(hwnd, &rect))
-        {
-            windowSize = ImVec2(rect.right - rect.left, rect.bottom - rect.top);
-        }
+       /* if (GetWindowRect(hwnd, &rect))
+        {}*/
 
         if (startVisual) {
 			/*ImGui::Begin("demo");
@@ -662,7 +666,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         //-----------------creating modifying window-------------------
         if (show_cast_window)
-            cast::showCastWindow(&show_cast_window, pageAt, gameData.getPage(pageAt));
+            cast::showCastWindow(&show_cast_window, pageAt, gameData.getPage(pageAt), windowSize);
 
 
 

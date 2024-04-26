@@ -134,6 +134,7 @@
     <ClInclude Include="imgui Support\imgui_impl_dx11.h" />
     <ClInclude Include="imgui Support\imgui_impl_win32.h" />
     <ClInclude Include="imgui Support\imgui_internal.h" />
+    <ClInclude Include="imgui Support\imgui_stdlib.h" />
     <ClInclude Include="imgui Support\imstb_rectpack.h" />
     <ClInclude Include="imgui Support\imstb_textedit.h" />
     <ClInclude Include="imgui Support\imstb_truetype.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="imgui Support\imgui_draw.cpp" />
     <ClCompile Include="imgui Support\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui Support\imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui Support\imgui_stdlib.cpp" />
     <ClCompile Include="imgui Support\imgui_tables.cpp" />
     <ClCompile Include="imgui Support\imgui_widgets.cpp" />
     <ClCompile Include="src\cast.cpp" />

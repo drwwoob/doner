@@ -53,3 +53,18 @@ Updating visual part:
     - Able to read string and load it into spirit with encryption
 Updating demo:
     - FABULOUS, FANCINATING drawing added to use as spirit case and cg
+
+V0.2
+Updated Visual part:
+    - Updates the logic of loading spirit
+    - Updates real-time modification on the shape and position of the image
+    - Can rename spirit in imgui's window too now
+    - Support saving now
+
+// todo
+	- less memory!
+        - transparency for spirits
+        - textboxs: font, font-size, color
+
+// default demo
+[sky.jpg{cast1#demoSpirit1.png#1#1.2#0.1#0.3##textbox#dbox.png#0.9#0.35#0#0.6##}{}]

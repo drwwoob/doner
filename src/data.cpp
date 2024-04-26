@@ -50,8 +50,9 @@ void data::openDemo(bool* start_visual) {
         //ImGui::End();
     }
     this->fileData = "";
-    this->forTest += 100;
     filePathStr = demoPath;
+    fileName = "demo.txt";
+
     std::string str;
     while (std::getline(demoFile, str))
     //while(demoFile >> str)
@@ -70,12 +71,16 @@ void data::visualizeData(HWND hWnd, HBITMAP background_path, int page_id) {
 }
 
 void data::visualizeData3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize, int page_id) {
-    pages.at(page_id).visualizePage3(g_pd3dDevice, windowSize, filePathStr);
+    if(!pages.empty())
+		pages.at(page_id).visualizePage3(g_pd3dDevice, windowSize, filePathStr);
+    else {
+	    // some popup
+    }
 }
 
 
-Page data::getPage(int page_id) {
-	return data::pages.at(page_id);
+Page* data::getPage(int page_id) {
+	return &pages.at(page_id);
 }
 
 std::string data::encryptIntoFile()
@@ -101,11 +106,62 @@ void data::decryptFile(std::string data_str)
                 pos++;
             }
             pages.emplace_back(pageID, data_str.substr(start, pos));
-            forTest += 1;
             pageID++;
             pos++;
 	    }
     }
+}
+
+void data::save() {
+    std::ofstream file;
+    //for testing
+    auto path = filePathStr + fileName;
+    auto data = encryptIntoFile();
+    file.open(path.c_str());
+    file << encryptIntoFile().c_str();
+    file.close();
+
+    //// Always center this window when appearing
+    //ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    //ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+    //if (ImGui::Button("Save"))
+	//ImGui::OpenPopup("save Modal window");
+
+
+ //   if (ImGui::BeginPopupModal("save Modal window", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+ //   {
+ //       ImGui::Text("All those beautiful files will be deleted.\nThis operation cannot be undone!");
+ //       ImGui::Separator();
+
+ //       //static int unused_i = 0;
+ //       //ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
+
+ //       static bool dont_ask_me_next_time = false;
+ //       ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+ //       ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
+ //       ImGui::PopStyleVar();
+
+ //       if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+ //       ImGui::SetItemDefaultFocus();
+ //       ImGui::SameLine();
+ //       if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+ //       ImGui::EndPopup();
+ //   }
+ //   ImGui::OpenPopup("Saved");
+ //   //ImGui::BeginPopupModal("Saved");
+ //   
+	//ImGui::Text("File have been saved!");
+	//ImGui::Separator();
+ //   if (ImGui::Button("Close"))
+ //       ImGui::CloseCurrentPopup();
+
+ //       //static int unused_i = 0;
+ //       //ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
+
+	////if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+	////ImGui::SetItemDefaultFocus();
+	//ImGui::EndPopup();
 }
 
 //

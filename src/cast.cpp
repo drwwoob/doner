@@ -9,14 +9,16 @@ void* GImGuiMarkerCallbackUserData = NULL;
 #define IMGUI_MARKER(section)  do { if (GImGuiMarkerCallback != NULL) GImGuiMarkerCallback(__FILE__, __LINE__, section, GImGuiMarkerCallbackUserData); } while (0)
 
 
-void cast::showCastWindow(bool* p_open, int pageID, Page pageInfo) {
+void cast::showCastWindow(bool* p_open, int pageID, Page *pageInfo, ImVec2 window_size) {
 	ImGuiWindowFlags window_flags = 0;
 	//Page pageInfo = gameData.getPage(pageID);
 
-	if(!ImGui::Begin("Cast", p_open, window_flags)) {
-		ImGui::End();
-		return;
-	}
+	//if(!ImGui::Begin("Cast", p_open, window_flags)) {
+	//	ImGui::End();
+	//	return;
+	//}
+
+	ImGui::Begin("Cast", p_open, window_flags);
 
 	const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
 	//ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + 100, main_viewport->WorkPos.y + 20), ImGuiCond_FirstUseEver);
@@ -27,12 +29,34 @@ void cast::showCastWindow(bool* p_open, int pageID, Page pageInfo) {
 	IMGUI_MARKER("Spirit");
 	//ImGui::SetNextWindowCollapsed(false);
 	if (ImGui::CollapsingHeader("Spirit", ImGuiTreeNodeFlags_DefaultOpen)) {
-		for (auto spirit : pageInfo.spirits) {
-			ImGui::BulletText("(%s)",spirit.name().c_str());
-		}
+		for (int id = 0; id < pageInfo->spirits.size(); id++) {
+			ImGui::BulletText("(%s)", pageInfo->spirits.at(id).name().c_str());
+			/*static char buff[32] = "";
+			ImGui::InputText("testxt", buff, 32);*/
+
+			//ImGui::SeparatorText( pageInfo->getRealSpirits(id)->name().c_str());
+
+			auto nameStr = pageInfo->getRealSpirits(id)->getRealNickName();
+			auto renameLabel = "rename##" + pageInfo->spirits.at(id).getFileName();
+			ImGui::InputText(renameLabel.c_str(), nameStr);
+			///*ImGui::InputText("rename", &name_str,
+			//ImGuiInputTextFlags_CallbackResize, MyResizeCallback, (void*) &name_str);*/
+			//
+
+			// changing size and position
+			auto widthLabel = "width##" + pageInfo->spirits.at(id).getFileName();
+			ImGui::SliderFloat(widthLabel.c_str(), &pageInfo->getRealSpirits(id)->sizeRatio[0], 0.0f, 1.0f);
+			auto heightLabel = "height##" + pageInfo->spirits.at(id).getFileName();
+			ImGui::SliderFloat(heightLabel.c_str(), &pageInfo->getRealSpirits(id)->sizeRatio[1], 0.0f, 1.0f);
+			auto xLabel = "x-cord##" + pageInfo->spirits.at(id).getFileName();
+			ImGui::SliderFloat(xLabel.c_str(), &pageInfo->getRealSpirits(id)->positionRatio[0], 0.0f, 1.0f);
+			auto yLabel = "y-cord##" + pageInfo->spirits.at(id).getFileName();
+			ImGui::SliderFloat(yLabel.c_str(), &pageInfo->getRealSpirits(id)->positionRatio[1], 0.0f, 1.0f);
+			}
 	}
+	IMGUI_MARKER("Textbox");
 	if (ImGui::CollapsingHeader("Textbox", ImGuiTreeNodeFlags_DefaultOpen)) {
-		for (auto textboxs : pageInfo.textboxs) {
+		for (auto textboxs : pageInfo->textboxs) {
 			ImGui::BulletText("(%s)", textboxs.c_str());
 		}
 	}
@@ -57,3 +81,25 @@ void cast::showWelcomePage(data* gameData, bool* show_welcome_window, bool* star
 	}
 	ImGui::End();
 }
+
+void cast::showFileWindow(bool* p_open, int pageID, Page* pageInfo)
+{
+	ImGui::Begin("FILE");
+
+	ImGui::End();
+}
+
+
+
+// helper function from imgui_demo
+//int cast::MyResizeCallback(ImGuiInputTextCallbackData* data)
+//{
+//	if (data->EventFlag == ImGuiInputTextFlags_CallbackResize)
+//	{
+//		ImVector<char>* my_str = (ImVector<char>*)data->UserData;
+//		IM_ASSERT(my_str->begin() == data->Buf);
+//		my_str->resize(data->BufSize); // NB: On resizing calls, generally data->BufSize == data->BufTextLen + 1
+//		data->Buf = my_str->begin();
+//	}
+//	return 0;
+//}

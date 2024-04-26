@@ -15,13 +15,13 @@ public:
 	void openFile(bool* start_visual);	// reading a file
 	void openDemo(bool* start_visual);	// open the demo file
 	//void openFile(std::string path);
-	Page getPage(int page_id);	// get the information of a page (decrypt)
+	Page* getPage(int page_id);	// get the information of a page (decrypt)
 	int leaveAt = 0;	// the page that the user left at last time
 	void visualizeData(HWND hWnd, HBITMAP background_path, int page_id = 0);
 	void visualizeData2();
 	void visualizeData3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize, int page_id = 0);
 	inline std::string filedata() { return fileData; };
-	int forTest = 5000;
+	void save();
 
 private:
 	std::vector<Page> pages;	// a file includes a collection of pages

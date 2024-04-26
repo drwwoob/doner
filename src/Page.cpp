@@ -27,6 +27,7 @@ Page::Page(int page_id, std::string page_data)
 	auto start = pos; // start of spirits
 	bool inGroup = true;
 	auto end = pos;
+	std::string str;
 
 	// get the spirits data string
 	while(inGroup) {
@@ -38,11 +39,12 @@ Page::Page(int page_id, std::string page_data)
 			pos += 1;
 		}
 		pos++;
+		//str = page_data.substr(start, pos);
 	}
 
-	auto spiritsData = page_data.substr(start, end);
+	auto spiritsData = page_data.substr(start, end - start);
 	auto s_start = 0;
-	auto s_end = spiritsData.find("##");
+	auto s_end = spiritsData.find("##") + 2;
 	while( s_end != std::string::npos) {
 		auto spiritData = spiritsData.substr(s_start, s_end);
 		// get each element
@@ -68,11 +70,11 @@ Page::Page(int page_id, std::string page_data)
 		//	spirits.emplace_back(seperateData[0]);
 		//}
 
-		if(para == 5) {
+		if(para == 7) {
 			spirits.emplace_back(seperateData[0], seperateData[1],
 				std::stof(seperateData[2]), std::stof(seperateData[3]), std::stof(seperateData[4]), std::stof(seperateData[5]));
 		}
-		s_start = s_end + 2;
+		s_start = s_end;
 		s_end = spiritsData.find("##", s_end + 2);
 	}
 	inGroup = true;
@@ -144,6 +146,11 @@ void Page::showBackGround(std::string file_name, ImVec2 windowSize, ID3D11Device
 		windowSize, ImVec2(0, 0), ImVec2(1, 1));
 }
 
+Spirit* Page::getRealSpirits(int id)
+{
+	return &spirits.at(id);
+}
+
 void Page::showSpirit(std::string file_path, Spirit spirit, ImVec2 window_size, ID3D11Device* g_pd3dDevice) {
 	int my_image_width = 0;
 	int my_image_height = 0;
@@ -155,7 +162,7 @@ void Page::showSpirit(std::string file_path, Spirit spirit, ImVec2 window_size, 
 	if(!ret) {
 		// error popup for not finding spirit
 	}
-	auto imgSize = spirit.getSize(my_image_width, my_image_height);
+	auto imgSize = spirit.getSize(window_size.x, window_size.y);
 	auto topLeft = spirit.getPosition(window_size.x, window_size.y);
 
 	// ---------------------to change---------------------

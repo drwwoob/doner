@@ -7,15 +7,15 @@
 class Spirit
 {
 private:
-	std::string spiritName;
 	std::string spiritFileName;
 	//PWSTR imageAddress;
 	//ImVec2 size;
+	
+public:
+	std::string spiritName;
 	float sizeRatio[2];
 	//ImVec2 Position;
 	float positionRatio[2]; // the ratio of (the coord for lefttop of the picture / the whole window)
-
-public:
 	// constructor while a new spirit is added
 	Spirit(const std::string file_name) {		// creating a new spirit
 		// since changing nick-name should not change file name, this file_name is passed in as a copy
@@ -40,7 +40,15 @@ public:
 	//void change(PWSTR address_after_change);
 	void change(ImVec2 size_after_change){}
 
+	std::string getFileName() {
+		return spiritFileName;
+	}
 
+	std::string* getRealNickName() {
+		return &spiritName;
+	}
+
+	// int win_x, int win_y
 	ImVec2 getSize(int x, int y) {
 		return ImVec2(sizeRatio[0] * x, sizeRatio[1] * y);
 	}

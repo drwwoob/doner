@@ -7,6 +7,7 @@
 #include "../imgui Support/imstb_rectpack.h"
 #include "../imgui Support/imstb_textedit.h"
 #include "../imgui Support/imstb_truetype.h"
+#include "../imgui Support/imgui_stdlib.h"
 #include <d3d11.h>
 #include <string>
 #pragma comment(lib, "d3d11.lib")

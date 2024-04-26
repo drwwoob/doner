@@ -28,6 +28,7 @@ public:
 	void visualizePage3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize, std::string file_path_str);
 	std::string exportInString();	// putting all the information in this page into a string
 	static void showBackGround(std::string file_name, ImVec2 windowSize, ID3D11Device* g_pd3dDevice);
+	Spirit* getRealSpirits(int id);
 	/* in the format of
 	[backgroundName{spirit1##spirit2##spirit3##}{textbox1##textbox2##}][backgroundName{spirit1##spirit2##spirit3##}{textbox1##textbox2##}]
 	*/
