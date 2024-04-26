@@ -11,10 +11,12 @@
 #include <codecvt>
 #include <locale>
 
+#include "Textbox.h"
+
 class Page {
 public:
 	std::vector<Spirit> spirits;
-	std::vector<std::string> textboxs;
+	std::vector<Textbox> textboxs;
 	// std::vector<std::string> textboxs settings;
 	std::string	backgroundName;
 	//std::string path;
@@ -37,6 +39,7 @@ public:
 
 private:
 	static void showSpirit(std::string file_path, Spirit spirit, ImVec2 window_size, ID3D11Device* g_pd3dDevice);
+	static void showTextbox(Textbox textbox, ImVec2 window_size);
 	static bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height, ID3D11Device* g_pd3dDevice);
 	//static std::string wordEncrypt(std::string word);
 

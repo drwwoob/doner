@@ -57,7 +57,7 @@ void cast::showCastWindow(bool* p_open, int pageID, Page *pageInfo, ImVec2 windo
 	IMGUI_MARKER("Textbox");
 	if (ImGui::CollapsingHeader("Textbox", ImGuiTreeNodeFlags_DefaultOpen)) {
 		for (auto textboxs : pageInfo->textboxs) {
-			ImGui::BulletText("(%s)", textboxs.c_str());
+			//ImGui::BulletText("(%s)", textboxs.c_str());
 		}
 	}
 	ImGui::End();

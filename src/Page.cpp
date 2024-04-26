@@ -45,46 +45,61 @@ Page::Page(int page_id, std::string page_data)
 	auto spiritsData = page_data.substr(start, end - start);
 	auto s_start = 0;
 	auto s_end = spiritsData.find("##") + 2;
-	while( s_end != std::string::npos) {
-		auto spiritData = spiritsData.substr(s_start, s_end);
-		// get each element
-		std::string seperateData[6]; // strings for each parameter
-		int para = 0;
-		for (auto s_pos = 0; s_pos < spiritData.size();  s_pos++) {
-			switch (spiritData.at(s_pos)) {
-			case '/':
-				s_pos++;
-				seperateData[para] += spiritData.at(s_pos);
-				break;
-			case '#':
-				para++;
-				break;
-				//if(spiritData.at(s_pos + 1) == '#')
-			default:
-				seperateData[para] += spiritData.at(s_pos);
-				break;
-			}
+
+	int para = 0;
+	std::string seperateData[6]; // strings for each parameter
+
+
+	for (int i = 0; i < spiritsData.size(); i++) {
+		switch (spiritsData.at(i)) {
+		case ('/'):
+			i++;
+			seperateData[para] += spiritsData.at(i);
+			break;
+		case('#'):
+			para++;
+			break;
+		default:
+			seperateData[para] += spiritsData.at(i);
+			break;
 		}
-
-		//if(para == 0) {
-		//	spirits.emplace_back(seperateData[0]);
-		//}
-
-		if(para == 7) {
+		if (para == 7) {
 			spirits.emplace_back(seperateData[0], seperateData[1],
 				std::stof(seperateData[2]), std::stof(seperateData[3]), std::stof(seperateData[4]), std::stof(seperateData[5]));
+			for (int s_i = 0; s_i < 6; s_i++) {
+				seperateData[s_i].clear();
+			}
+			para = 0;
 		}
-		s_start = s_end;
-		s_end = spiritsData.find("##", s_end + 2);
 	}
-	inGroup = true;
-	
 
-	//for
-	//if (data_str.at(pos) == '/') { // escaping
-	//	pos++;
-	//	switch (data_str.at(pos)) {
 
+	//inGroup = true;
+	auto textData = page_data.substr(end + 2, page_data.size() - 4 - end);
+	s_start = end + 2;
+	para = 0;
+	std::string seperateTextData[10];
+	for (int i = 0; i < textData.size(); i++) {
+		switch (textData.at(i)) {
+		case ('/'):
+			i++;
+			seperateTextData[para] += textData.at(i);
+			break;
+		case('#'):
+			para++;
+			break;
+		default:
+			seperateTextData[para] += textData.at(i);
+			break;
+		}
+		if (para == 10) {
+			textboxs.emplace_back(seperateTextData);
+			for(int t_i = 0; t_i < 10; t_i++) {
+				seperateTextData[t_i].clear();
+			}
+			para = 0;
+		}
+	}
 	//	}
 	//}
 }
@@ -121,15 +136,18 @@ void Page::visualizePage2(Gdiplus::Bitmap* background_path, PWSTR path) {
 	}
 
 
-void Page::visualizePage3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize, std::string file_path_str) {
+void Page::visualizePage3(ID3D11Device* g_pd3dDevice, ImVec2 window_size, std::string file_path_str) {
 	auto back_path = file_path_str + backgroundName;
 
-	showBackGround(back_path, windowSize, g_pd3dDevice);
+	showBackGround(back_path, window_size, g_pd3dDevice);
 	for (auto spirit : spirits) {
-		showSpirit(file_path_str, spirit, windowSize, g_pd3dDevice);
+		showSpirit(file_path_str, spirit, window_size, g_pd3dDevice);
 	}
 
-	////pmax for ImGui::GetWindowContentRegionMax()
+	//pmax for ImGui::GetWindowContentRegionMax()
+	for(auto textbox : textboxs) {
+		showTextbox(textbox, window_size);
+	}
 }
 
 void Page::showBackGround(std::string file_name, ImVec2 windowSize, ID3D11Device* g_pd3dDevice) {
@@ -173,6 +191,11 @@ void Page::showSpirit(std::string file_path, Spirit spirit, ImVec2 window_size, 
 		ImVec2(0, 0), ImVec2(1, 1));
 }
 
+void Page::showTextbox(Textbox textbox, ImVec2 window_size)
+{
+	//ImGui::GetBackgroundDrawList()->AddText(NULL, textbox.fontSize,
+		//textbox.positionRatio, textbox.color, textbox.content.c_str());
+}
 
 
 std::string Page::exportInString()
@@ -192,7 +215,7 @@ std::string Page::exportInString()
 	// add textboxs;
 	encrypt.append("{");
 	for (auto textbox : textboxs) {
-		encrypt.append(textbox);
+		//encrypt.append(textbox);
 	}
 	encrypt.append("}");
 	
@@ -202,7 +225,7 @@ std::string Page::exportInString()
 	return encrypt;
 }
 
-
+// helper function from imgui_example
 bool Page::LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height, ID3D11Device* g_pd3dDevice)
 {
 	 //Load from disk into a raw RGBA buffer

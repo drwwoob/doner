@@ -67,7 +67,8 @@ public:
 
 		dataEncr += Tools::wordEncrypt(spiritName);
 
-
+		dataEncr += "#";
+		dataEncr += Tools::wordEncrypt(spiritFileName);
 		dataEncr += "#";
 		dataEncr += std::to_string(sizeRatio[0]);
 		dataEncr += "#";
