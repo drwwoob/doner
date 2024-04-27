@@ -67,11 +67,22 @@ Update architecture part:
     - Can read and load textbox information
     - Can show textbox (not finished yet)
 
+V0.2.2
+Updated Memory part:
+    - The logic of loading texture changed
+    - Now at most 18 spirits could be loaded
+
 
 // todo
 	- less memory!
         - transparency for spirits
         - textboxs: font, font-size, color
+	- added background to the cast scene
+
+
+// bug unsolved
+	- leaving the application on the same page for about 30 seconds, the loaded texture started to diasapear (especially background)
+		- or is it because my pc is breaking down? ;)
 
 // default demo
 [sky.jpg{cast1#demoSpirit1.png#0.616000#1.200000#0.100000#0.300000##textbox#dbox.png#0.900000#0.350000#0.000000#0.600000##}{text1#Welcome to Doner!#0.7#0.7##0#0#0#1#1##}]
