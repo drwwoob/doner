@@ -26,3 +26,9 @@ public:
 	//helper function
 };
 
+
+struct texture {
+	int w = 0;
+	int h = 0;
+	ID3D11ShaderResourceView* t = NULL;
+};

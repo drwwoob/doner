@@ -18,12 +18,14 @@ public:
 	Page* getPage(int page_id);	// get the information of a page (decrypt)
 	int leaveAt = 0;	// the page that the user left at last time
 	void visualizeData(HWND hWnd, HBITMAP background_path, int page_id = 0);
+	void visualizeData3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize,std::vector<texture>* textureList, int page_id = 0);
 	void visualizeData2();
-	void visualizeData3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize, int page_id = 0);
+	void setFont(ImFont* font_given);
 	inline std::string filedata() { return fileData; };
 	void save();
 
 private:
+	ImFont* font;
 	std::vector<Page> pages;	// a file includes a collection of pages
 	std::string fileName;
 	std::string fileData;

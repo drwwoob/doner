@@ -70,12 +70,20 @@ void data::visualizeData(HWND hWnd, HBITMAP background_path, int page_id) {
     pages.at(page_id).visualizePage(hWnd, background_path, filePathStr);
 }
 
-void data::visualizeData3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize, int page_id) {
+void data::visualizeData3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize, std::vector<texture>* textureList, int page_id) {
     if(!pages.empty())
-		pages.at(page_id).visualizePage3(g_pd3dDevice, windowSize, filePathStr);
+		pages.at(page_id).visualizePage3(g_pd3dDevice, windowSize, filePathStr, textureList);
     else {
 	    // some popup
     }
+}
+
+void data::setFont(ImFont* font_given)
+{
+    font = font_given;
+    //for (int i = 0; i < pages.size(); i++) {
+    //    pages.at(i).setFont(font_given);
+    //}
 }
 
 
@@ -106,6 +114,7 @@ void data::decryptFile(std::string data_str)
                 pos++;
             }
             pages.emplace_back(pageID, data_str.substr(start, pos));
+            pages.back().setFont(font);
             pageID++;
             pos++;
 	    }

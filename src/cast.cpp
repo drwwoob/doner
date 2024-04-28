@@ -30,35 +30,63 @@ void cast::showCastWindow(bool* p_open, int pageID, Page *pageInfo, ImVec2 windo
 	//ImGui::SetNextWindowCollapsed(false);
 	if (ImGui::CollapsingHeader("Spirit", ImGuiTreeNodeFlags_DefaultOpen)) {
 		for (int id = 0; id < pageInfo->spirits.size(); id++) {
-			ImGui::BulletText("(%s)", pageInfo->spirits.at(id).name().c_str());
-			/*static char buff[32] = "";
-			ImGui::InputText("testxt", buff, 32);*/
+			ImGui::SetNextWindowCollapsed(false);
+			IMGUI_MARKER(pageInfo->spirits.at(id).name().c_str());
+			if (ImGui::TreeNode(pageInfo->spirits.at(id).name().c_str())) {
+				//ImGui::BulletText("(%s)", pageInfo->spirits.at(id).name().c_str());
+				/*static char buff[32] = "";
+				ImGui::InputText("testxt", buff, 32);*/
 
-			//ImGui::SeparatorText( pageInfo->getRealSpirits(id)->name().c_str());
+				//ImGui::SeparatorText( pageInfo->getRealSpirits(id)->name().c_str());
 
-			auto nameStr = pageInfo->getRealSpirits(id)->getRealNickName();
-			auto renameLabel = "rename##" + pageInfo->spirits.at(id).getFileName();
-			ImGui::InputText(renameLabel.c_str(), nameStr);
-			///*ImGui::InputText("rename", &name_str,
-			//ImGuiInputTextFlags_CallbackResize, MyResizeCallback, (void*) &name_str);*/
-			//
+				auto nameStr = pageInfo->getRealSpirits(id)->getRealNickName();
+				auto renameLabel = "rename##" + pageInfo->spirits.at(id).getFileName();
+				ImGui::InputText(renameLabel.c_str(), nameStr);
+				///*ImGui::InputText("rename", &name_str,
+				//ImGuiInputTextFlags_CallbackResize, MyResizeCallback, (void*) &name_str);*/
+				//
 
-			// changing size and position
-			auto widthLabel = "width##" + pageInfo->spirits.at(id).getFileName();
-			ImGui::SliderFloat(widthLabel.c_str(), &pageInfo->getRealSpirits(id)->sizeRatio[0], 0.0f, 1.0f);
-			auto heightLabel = "height##" + pageInfo->spirits.at(id).getFileName();
-			ImGui::SliderFloat(heightLabel.c_str(), &pageInfo->getRealSpirits(id)->sizeRatio[1], 0.0f, 1.0f);
-			auto xLabel = "x-cord##" + pageInfo->spirits.at(id).getFileName();
-			ImGui::SliderFloat(xLabel.c_str(), &pageInfo->getRealSpirits(id)->positionRatio[0], 0.0f, 1.0f);
-			auto yLabel = "y-cord##" + pageInfo->spirits.at(id).getFileName();
-			ImGui::SliderFloat(yLabel.c_str(), &pageInfo->getRealSpirits(id)->positionRatio[1], 0.0f, 1.0f);
+				// changing size and position
+				auto widthLabel = "width##" + pageInfo->spirits.at(id).getFileName();
+				ImGui::SliderFloat(widthLabel.c_str(), &pageInfo->getRealSpirits(id)->sizeRatio[0], 0.0f, 1.0f);
+				auto heightLabel = "height##" + pageInfo->spirits.at(id).getFileName();
+				ImGui::SliderFloat(heightLabel.c_str(), &pageInfo->getRealSpirits(id)->sizeRatio[1], 0.0f, 1.0f);
+				auto xLabel = "x-cord##" + pageInfo->spirits.at(id).getFileName();
+				ImGui::SliderFloat(xLabel.c_str(), &pageInfo->getRealSpirits(id)->positionRatio[0], 0.0f, 1.0f);
+				auto yLabel = "y-cord##" + pageInfo->spirits.at(id).getFileName();
+				ImGui::SliderFloat(yLabel.c_str(), &pageInfo->getRealSpirits(id)->positionRatio[1], 0.0f, 1.0f);
+
+				ImGui::TreePop();
 			}
+		}
 	}
 	IMGUI_MARKER("Textbox");
 	if (ImGui::CollapsingHeader("Textbox", ImGuiTreeNodeFlags_DefaultOpen)) {
-		for (auto textboxs : pageInfo->textboxs) {
+
+		for (auto id = 0; id < pageInfo->textboxs.size(); id++) {
+
+			if(ImGui::TreeNode(pageInfo->textboxs[id].name.c_str())) {
+
+				auto editLabel = "edit##" + pageInfo->textboxs[id].name;
+				auto contentStr = pageInfo->textboxs[id].getRealContent();
+				//ImGui::BulletText("%s", textbox.content.c_str());
+				ImGui::InputTextMultiline(editLabel.c_str(),contentStr);
+
+
+				auto xLabel = "x-cord##" + pageInfo->textboxs.at(id).name;
+				ImGui::SliderFloat(xLabel.c_str(), &pageInfo->getRealTextbox(id)->positionRatio[0], 0.0f, 1.0f);
+				auto yLabel = "y-cord##" + pageInfo->textboxs.at(id).name;
+				ImGui::SliderFloat(yLabel.c_str(), &pageInfo->getRealTextbox(id)->positionRatio[1], 0.0f, 1.0f);
+
+				ImGui::TreePop();
+			}
 			//ImGui::BulletText("(%s)", textboxs.c_str());
 		}
+	}
+
+	IMGUI_MARKER("Background");
+	if(ImGui::CollapsingHeader("Background", ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::Text("%s", pageInfo->backgroundName.c_str());
 	}
 	ImGui::End();
 }
