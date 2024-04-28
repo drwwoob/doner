@@ -38,12 +38,7 @@ auto PathLoc = std::string(__FILE__).find_last_of("\\/");
 auto Path = std::string(__FILE__).substr(0, PathLoc).append("\\..\\projects storage\\");
 auto DefaultBackground = Path + "src\\defaultBackground.jpg";
 //auto w_DefaultB = std::wstring(DefaultBackground.begin(), DefaultBackground.end()).c_str();
-
-
-// game data
-ImGuiIO& io = ImGui::GetIO();
-data gameData = data(Path, io);
-
+data gameData = data(Path);
 
 // the first one in this list is the background texture
 std::vector<texture> textureList(20);
@@ -559,6 +554,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // --------------------------get data info--------------------------------
     pageAt = gameData.leaveAt;
+
+    //setup Font
+	gameData.setFont(io.Fonts->AddFontDefault());
+
+
+
     // ------------------------- initial textureList--------------------
     // ----------------there's a limit of how many cast can be loaded now, maybe this could be dynamic in the future--------
     //std::fill(textureList.begin(), textureList.begin() + 20);
@@ -573,7 +574,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // - Use '#define IMGUI_ENABLE_FREETYPE' in your imconfig file to use Freetype for higher quality font rendering.
     // - Read 'docs/FONTS.md' for more instructions and details.
     // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
-    //io.Fonts->AddFontDefault();
     //io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);

@@ -4,7 +4,7 @@
 #include <windows.h>
 #include <shobjidl.h> 
 
-data::data(std::string file_path, ImGuiIO& io) : ioLocal(io)
+data::data(std::string file_path)
 {
 	// pop up a window to let the user choose a places to save
 	// and let them put in the name for the file
@@ -22,7 +22,6 @@ data::data(std::string file_path, ImGuiIO& io) : ioLocal(io)
 	filePath = buffer;
 
 	delete buffer;
-
 
 	// create a blank page
 	pages.emplace_back(0);
@@ -79,6 +78,14 @@ void data::visualizeData3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize, std::ve
     }
 }
 
+void data::setFont(ImFont* font_given)
+{
+    font = font_given;
+    //for (int i = 0; i < pages.size(); i++) {
+    //    pages.at(i).setFont(font_given);
+    //}
+}
+
 
 Page* data::getPage(int page_id) {
 	return &pages.at(page_id);
@@ -106,7 +113,8 @@ void data::decryptFile(std::string data_str)
             while(data_str.at(pos) != ']') {
                 pos++;
             }
-            pages.emplace_back(pageID, data_str.substr(start, pos), ioLocal);
+            pages.emplace_back(pageID, data_str.substr(start, pos));
+            pages.back().setFont(font);
             pageID++;
             pos++;
 	    }

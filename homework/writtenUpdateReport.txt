@@ -72,6 +72,9 @@ Updated Memory part:
     - The logic of loading texture changed
     - Now at most 18 spirits could be loaded
 
+V0.2.3
+    - Can view text right now (with deafult font)
+    - Can modify text in the imgui window live now
 
 // todo
 	- less memory!
@@ -81,7 +84,7 @@ Updated Memory part:
 
 
 // bug unsolved
-	- leaving the application on the same page for about 30 seconds, the loaded texture started to diasapear (especially background)
+	- leaving the application on the same page for about 2 minutes, the loaded texture started to diasapear (especially background)
 		- or is it because my pc is breaking down? ;)
 
 // default demo

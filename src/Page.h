@@ -23,7 +23,7 @@ public:
 	int pageId;
 	Page();
 	Page(int page_id);
-	Page(int page_id, std::string page_data, ImGuiIO& io);
+	Page(int page_id, std::string page_data);
 	//Page(int page_id, std::vector<std::string> spirits_vec, std::vector<std::string> textboxs_vec);
 	void visualizePage(HWND hWnd, HBITMAP g_hBackgroundBitmap, std::string file_path);
 	void visualizePage2(Gdiplus::Bitmap* background_path, PWSTR path);
@@ -32,7 +32,8 @@ public:
 	std::string exportInString();	// putting all the information in this page into a string
 	Spirit* getRealSpirits(int id);
 	Textbox* getRealTextbox(int id);
-	void freeTexture();
+	void setFont(ImFont* font_given);
+	//void freeTexture();
 	/* in the format of
 	[backgroundName{spirit1##spirit2##spirit3##}{textbox1##textbox2##}][backgroundName{spirit1##spirit2##spirit3##}{textbox1##textbox2##}]
 	*/

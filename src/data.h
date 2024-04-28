@@ -10,8 +10,7 @@
 class data
 {
 public:
-	data();
-	data(std::string file_path, ImGuiIO& io);		// creating a blank file
+	data(std::string file_path);		// creating a blank file
 	void newFile(bool* start_visual);
 	void openFile(bool* start_visual);	// reading a file
 	void openDemo(bool* start_visual);	// open the demo file
@@ -21,11 +20,12 @@ public:
 	void visualizeData(HWND hWnd, HBITMAP background_path, int page_id = 0);
 	void visualizeData3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize,std::vector<texture>* textureList, int page_id = 0);
 	void visualizeData2();
+	void setFont(ImFont* font_given);
 	inline std::string filedata() { return fileData; };
 	void save();
 
 private:
-	ImGuiIO& ioLocal;
+	ImFont* font;
 	std::vector<Page> pages;	// a file includes a collection of pages
 	std::string fileName;
 	std::string fileData;

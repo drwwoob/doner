@@ -12,7 +12,7 @@ Page::Page(int page_id) {
 	pageId = page_id;
 }
 
-Page::Page(int page_id, std::string page_data, ImGuiIO& io)
+Page::Page(int page_id, std::string page_data)
 {
 	pageId = page_id;
 
@@ -65,7 +65,7 @@ Page::Page(int page_id, std::string page_data, ImGuiIO& io)
 		}
 		if (para == 7) {
 			spirits.emplace_back(seperateData[0], seperateData[1],
-				std::stof(seperateData[2]), std::stof(seperateData[3]), 
+				std::stof(seperateData[2]), std::stof(seperateData[3]),
 				std::stof(seperateData[4]), std::stof(seperateData[5]));
 			for (int s_i = 0; s_i < 6; s_i++) {
 				seperateData[s_i].clear();
@@ -94,7 +94,7 @@ Page::Page(int page_id, std::string page_data, ImGuiIO& io)
 			break;
 		}
 		if (para == 10) {
-			textboxs.emplace_back(seperateTextData, io);
+			textboxs.emplace_back(seperateTextData);
 			for(int t_i = 0; t_i < 10; t_i++) {
 				seperateTextData[t_i].clear();
 			}
@@ -174,6 +174,13 @@ Textbox* Page::getRealTextbox(int id)
 	return &textboxs.at(id);
 }
 
+void Page::setFont(ImFont* font_given)
+{
+	for(int i = 0; i < textboxs.size(); i++) {
+		textboxs.at(i).changeFont(font_given);
+	}
+}
+
 void Page::showSpirit(std::string file_path, Spirit spirit, ImVec2 window_size, ID3D11Device* g_pd3dDevice, texture* texture) {
 	//int my_image_width = 0;
 	//int my_image_height = 0;
@@ -202,11 +209,10 @@ void Page::showTextbox(Textbox textbox, ImVec2 window_size)
 	ImGui::GetBackgroundDrawList()->AddText(textbox.font, textbox.fontSize,
 		ImVec2(textbox.positionRatio.x * window_size.x, textbox.positionRatio.y * window_size.y),
 		textbox.color, textbox.content.c_str());
-
+	textbox;
 	//ImGui::GetBackgroundDrawList()->AddText(ImVec2(textbox.positionRatio.x * window_size.x, textbox.positionRatio.y * window_size.y),
 	//	textbox.color, textbox.content.c_str());
 }
-
 
 std::string Page::exportInString()
 {

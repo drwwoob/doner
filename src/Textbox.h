@@ -13,7 +13,7 @@ public:
 	ImColor color;
 	float fontSize;
 	Textbox();
-	Textbox(std::string data_str[10], ImGuiIO& io) {
+	Textbox(std::string data_str[10]) { // , ImGuiIO& io
 		name = data_str[0];
 		content = data_str[1];
 		positionRatio[0] = std::stof(data_str[2]);
@@ -25,10 +25,12 @@ public:
 			fontPath = data_str[4];
 		}
 		//font =  // load font
-		//font = NULL; for default
+
+		font = NULL;
+		//font = ImGui::GetIO().Fonts->AddFontDefault(); //for default
 
 		// default for now
-		font = io.Fonts->AddFontDefault();
+		//font = io.Fonts->AddFontDefault();
 
 		color = ImColor(std::stof(data_str[5]),
 			std::stof(data_str[6]),
@@ -43,6 +45,10 @@ public:
 	
 	std::string* getRealContent() {
 		return &content;
+	}
+
+	void changeFont(ImFont* font_given) {
+		font = font_given;
 	}
 
 	std::string encrypt() {
