@@ -12,7 +12,7 @@ Page::Page(int page_id) {
 	pageId = page_id;
 }
 
-Page::Page(int page_id, std::string page_data)
+Page::Page(int page_id, std::string page_data, ImGuiIO& io)
 {
 	pageId = page_id;
 
@@ -65,7 +65,8 @@ Page::Page(int page_id, std::string page_data)
 		}
 		if (para == 7) {
 			spirits.emplace_back(seperateData[0], seperateData[1],
-				std::stof(seperateData[2]), std::stof(seperateData[3]), std::stof(seperateData[4]), std::stof(seperateData[5]));
+				std::stof(seperateData[2]), std::stof(seperateData[3]), 
+				std::stof(seperateData[4]), std::stof(seperateData[5]));
 			for (int s_i = 0; s_i < 6; s_i++) {
 				seperateData[s_i].clear();
 			}
@@ -93,7 +94,7 @@ Page::Page(int page_id, std::string page_data)
 			break;
 		}
 		if (para == 10) {
-			textboxs.emplace_back(seperateTextData);
+			textboxs.emplace_back(seperateTextData, io);
 			for(int t_i = 0; t_i < 10; t_i++) {
 				seperateTextData[t_i].clear();
 			}
@@ -136,31 +137,30 @@ void Page::visualizePage2(Gdiplus::Bitmap* background_path, PWSTR path) {
 	}
 
 
-void Page::visualizePage3(ID3D11Device* g_pd3dDevice, ImVec2 window_size, std::string file_path_str) {
+void Page::visualizePage3(ID3D11Device* g_pd3dDevice, ImVec2 window_size, std::string file_path_str, std::vector<texture>* textureList) {
 	auto back_path = file_path_str + backgroundName;
 
-	showBackGround(back_path, window_size, g_pd3dDevice);
-	for (auto spirit : spirits) {
-		showSpirit(file_path_str, spirit, window_size, g_pd3dDevice);
+	showBackGround(back_path, window_size, g_pd3dDevice, textureList->at(0).t, &textureList->at(0).w, &textureList->at(0).h);
+	for (int i = 0; i < spirits.size(); i++) {
+		showSpirit(file_path_str, spirits.at(i), window_size, g_pd3dDevice, &textureList->at(i + 1));
 	}
 
 	//pmax for ImGui::GetWindowContentRegionMax()
+
+	//ImGui::GetBackgroundDrawList()->AddText(ImVec2(500, 500), ImColor(1,1,1), "HUH?");
+
 	for(auto textbox : textboxs) {
 		showTextbox(textbox, window_size);
 	}
 }
 
-void Page::showBackGround(std::string file_name, ImVec2 windowSize, ID3D11Device* g_pd3dDevice) {
-	int my_image_width = 0;
-	int my_image_height = 0;
-	ID3D11ShaderResourceView* my_texture = NULL;
-
-	bool ret = LoadTextureFromFile(file_name.c_str(), &my_texture, &my_image_width, &my_image_height, g_pd3dDevice);
+void Page::showBackGround(std::string file_name, ImVec2 windowSize, ID3D11Device* g_pd3dDevice, ID3D11ShaderResourceView* back_texture, int *back_w, int *back_h) {
+	bool ret = LoadTextureFromFile(file_name.c_str(), &back_texture, back_w, back_h, g_pd3dDevice);
 	if(!ret) {
 		// a popup window saying no background picture found
 	}
 
-	ImGui::GetBackgroundDrawList()->AddImage((void*)my_texture, ImVec2(0, 0),
+	ImGui::GetBackgroundDrawList()->AddImage((void*)back_texture, ImVec2(0, 0),
 		windowSize, ImVec2(0, 0), ImVec2(1, 1));
 }
 
@@ -169,14 +169,19 @@ Spirit* Page::getRealSpirits(int id)
 	return &spirits.at(id);
 }
 
-void Page::showSpirit(std::string file_path, Spirit spirit, ImVec2 window_size, ID3D11Device* g_pd3dDevice) {
-	int my_image_width = 0;
-	int my_image_height = 0;
-	ID3D11ShaderResourceView* my_texture = NULL;
+Textbox* Page::getRealTextbox(int id)
+{
+	return &textboxs.at(id);
+}
+
+void Page::showSpirit(std::string file_path, Spirit spirit, ImVec2 window_size, ID3D11Device* g_pd3dDevice, texture* texture) {
+	//int my_image_width = 0;
+	//int my_image_height = 0;
+	//ID3D11ShaderResourceView* my_texture = NULL;
 
 	auto spiritPathName = file_path + spirit.fileName();
 
-	bool ret = LoadTextureFromFile(spiritPathName.c_str(), &my_texture, &my_image_width, &my_image_height, g_pd3dDevice);
+	bool ret = LoadTextureFromFile(spiritPathName.c_str(), &texture->t, &texture->w, &texture->h, g_pd3dDevice);
 	if(!ret) {
 		// error popup for not finding spirit
 	}
@@ -186,15 +191,20 @@ void Page::showSpirit(std::string file_path, Spirit spirit, ImVec2 window_size, 
 	// ---------------------to change---------------------
 	// im thinking the uv for here can change so that the whole picture does not to be added,
 	// but only the part inside the window
-	ImGui::GetBackgroundDrawList()->AddImage((void*)my_texture, topLeft,
+	ImGui::GetBackgroundDrawList()->AddImage((void*)texture->t, topLeft,
 		ImVec2(topLeft.x + imgSize.x, topLeft.y + imgSize.y),
 		ImVec2(0, 0), ImVec2(1, 1));
+
 }
 
 void Page::showTextbox(Textbox textbox, ImVec2 window_size)
 {
-	//ImGui::GetBackgroundDrawList()->AddText(NULL, textbox.fontSize,
-		//textbox.positionRatio, textbox.color, textbox.content.c_str());
+	ImGui::GetBackgroundDrawList()->AddText(textbox.font, textbox.fontSize,
+		ImVec2(textbox.positionRatio.x * window_size.x, textbox.positionRatio.y * window_size.y),
+		textbox.color, textbox.content.c_str());
+
+	//ImGui::GetBackgroundDrawList()->AddText(ImVec2(textbox.positionRatio.x * window_size.x, textbox.positionRatio.y * window_size.y),
+	//	textbox.color, textbox.content.c_str());
 }
 
 
@@ -215,6 +225,7 @@ std::string Page::exportInString()
 	// add textboxs;
 	encrypt.append("{");
 	for (auto textbox : textboxs) {
+		encrypt.append(textbox.encrypt());
 		//encrypt.append(textbox);
 	}
 	encrypt.append("}");

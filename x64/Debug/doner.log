@@ -1,7 +1,17 @@
-﻿  Page.cpp
-C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\Page.cpp(79,16): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\Page.cpp(183,58): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\Page.cpp(183,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\Page.cpp(184,62): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\Page.cpp(184,47): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+﻿  cast.cpp
+  data.cpp
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\data.cpp(20,71): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\data.cpp(20,52): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  doner.cpp
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\doner.cpp(549,65): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\doner.cpp(549,40): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\doner.cpp(658,69): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\doner.cpp(658,44): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+  Page.cpp
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\Page.cpp(80,16): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\Page.cpp(188,58): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\Page.cpp(188,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\Page.cpp(189,62): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\Page.cpp(189,47): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
   doner.vcxproj -> C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\x64\Debug\doner.exe

@@ -38,7 +38,15 @@ auto PathLoc = std::string(__FILE__).find_last_of("\\/");
 auto Path = std::string(__FILE__).substr(0, PathLoc).append("\\..\\projects storage\\");
 auto DefaultBackground = Path + "src\\defaultBackground.jpg";
 //auto w_DefaultB = std::wstring(DefaultBackground.begin(), DefaultBackground.end()).c_str();
-data gameData = data(Path);
+
+
+// game data
+ImGuiIO& io = ImGui::GetIO();
+data gameData = data(Path, io);
+
+
+// the first one in this list is the background texture
+std::vector<texture> textureList(20);
 
 //
 //Gdiplus::Bitmap* pBackgroundImage = nullptr;
@@ -551,6 +559,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // --------------------------get data info--------------------------------
     pageAt = gameData.leaveAt;
+    // ------------------------- initial textureList--------------------
+    // ----------------there's a limit of how many cast can be loaded now, maybe this could be dynamic in the future--------
+    //std::fill(textureList.begin(), textureList.begin() + 20);
+    //moved to the initiated place
+
 
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
@@ -603,8 +616,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             g_pSwapChain->ResizeBuffers(0, g_ResizeWidth, g_ResizeHeight, DXGI_FORMAT_UNKNOWN, 0);
             g_ResizeWidth = g_ResizeHeight = 0;
 
-			// get the size
-            windowSize = ImVec2(rect.right - rect.left, rect.bottom - rect.top);
+			//// get the size
+   //         windowSize = ImVec2(rect.right - rect.left, rect.bottom - rect.top);
 
 
             CreateRenderTarget();
@@ -641,16 +654,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         //gameData.getPage(pageAt).visualizePage();
 
 
-       /* if (GetWindowRect(hwnd, &rect))
-        {}*/
+        if (GetWindowRect(hwnd, &rect)) {
+            windowSize = ImVec2(rect.right - rect.left, rect.bottom - rect.top);
+        }
+
 
         if (startVisual) {
-			/*ImGui::Begin("demo");
-			ImGui::Text("%s", gameData.filedata().c_str());
-		    ImGui::Text("%d", gameData.forTest);
-	        ImGui::End();*/
-
-            gameData.visualizeData3(g_pd3dDevice, windowSize);
+            gameData.visualizeData3(g_pd3dDevice, windowSize, &textureList);
 
 
             //gameData.vidualizeData2(LoadTextureFromFile);
@@ -658,7 +668,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         }
         else {
-            Page::showBackGround(DefaultBackground, windowSize, g_pd3dDevice);
+            Page::showBackGround(DefaultBackground, windowSize, g_pd3dDevice, textureList.at(0).t, &textureList.at(0).w, &textureList.at(0).h);
         }
 
 
@@ -693,17 +703,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         //    ImGui::End();
         //}
 
-
-        //// 3. Show another simple window.
-        //if (show_another_window)
-        //{
-        //    ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        //    ImGui::Text("Hello from another window!");
-        //    if (ImGui::Button("Close Me"))
-        //        show_another_window = false;
-        //    ImGui::End();
-        //}
-
         // Rendering 
         ImGui::Render();
         const float clear_color_with_alpha[4] = { clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w };
@@ -713,6 +712,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         g_pSwapChain->Present(1, 0); // Present with vsync
         //g_pSwapChain->Present(0, 0); // Present without vsync
+
+    //clean up texture
+        for (int i = 0; i < textureList.size(); i++) {
+            if (textureList.at(i).t != nullptr)
+            {
+                textureList.at(i).t->Release();
+                textureList.at(i).t = nullptr;
+            }
+        }
     }
 
     // Cleanup
@@ -720,6 +728,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
     Gdiplus::GdiplusShutdown(gdiplusToken);
+
 
     CleanupDeviceD3D();
     ::DestroyWindow(hwnd);
