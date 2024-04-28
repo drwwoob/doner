@@ -209,7 +209,6 @@ void Page::showTextbox(Textbox textbox, ImVec2 window_size)
 	ImGui::GetBackgroundDrawList()->AddText(textbox.font, textbox.fontSize,
 		ImVec2(textbox.positionRatio.x * window_size.x, textbox.positionRatio.y * window_size.y),
 		textbox.color, textbox.content.c_str());
-	textbox;
 	//ImGui::GetBackgroundDrawList()->AddText(ImVec2(textbox.positionRatio.x * window_size.x, textbox.positionRatio.y * window_size.y),
 	//	textbox.color, textbox.content.c_str());
 }
