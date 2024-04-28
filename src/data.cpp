@@ -111,9 +111,13 @@ void data::decryptFile(std::string data_str)
 	    if(data_str.at(pos++) == '[') { // whether pos is '[', go to the next letter
             start = pos;
             while(data_str.at(pos) != ']') {
+                if(data_str.at(pos) == '/') {
+                    pos++;
+                }
                 pos++;
             }
             pages.emplace_back(pageID, data_str.substr(start, pos));
+            auto test = data_str.substr(start, pos);
             pages.back().setFont(font);
             pageID++;
             pos++;
@@ -171,6 +175,24 @@ void data::save() {
 	////if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
 	////ImGui::SetItemDefaultFocus();
 	//ImGui::EndPopup();
+}
+
+void data::addPage(int page_id)
+{
+    pages.emplace(pages.begin() + page_id, page_id);
+}
+
+void data::CopyPage(int page_id, Page page)
+{
+    for(int i = 0; i < page.textboxs.size(); i++) {
+        page.textboxs.at(i).content = "Enter new text";
+    }
+    pages.insert(pages.begin() + page_id, page);
+}
+
+void data::deletePage(int page_id)
+{
+    pages.erase(pages.begin() + page_id);
 }
 
 //

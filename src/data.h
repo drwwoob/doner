@@ -21,8 +21,12 @@ public:
 	void visualizeData3(ID3D11Device* g_pd3dDevice, ImVec2 windowSize,std::vector<texture>* textureList, int page_id = 0);
 	void visualizeData2();
 	void setFont(ImFont* font_given);
-	inline std::string filedata() { return fileData; };
+	std::string filedata() { return fileData; };
 	void save();
+	int pageSize() { return pages.size(); };
+	void addPage(int page_id);
+	void CopyPage(int page_id, Page page);
+	void deletePage(int page_id);
 
 private:
 	ImFont* font;

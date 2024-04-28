@@ -590,6 +590,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     bool show_welcome_window = true;
     bool show_cast_window = true;
     bool view_data = false;
+    bool page_setting = false;
 
 
     // ------------------------Main loop--------------------------------
@@ -643,7 +644,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         // -------------------welcoming scene ------------------
         if (show_welcome_window) {
-            cast::showWelcomePage(&gameData, &show_welcome_window, &startVisual);
+            cast::showWelcomePage(&gameData, &show_welcome_window, &startVisual, &page_setting);
         }
 
         //// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
@@ -660,7 +661,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
         if (startVisual) {
-            gameData.visualizeData3(g_pd3dDevice, windowSize, &textureList);
+            gameData.visualizeData3(g_pd3dDevice, windowSize, &textureList, pageAt);
 
 
             //gameData.vidualizeData2(LoadTextureFromFile);
@@ -677,7 +678,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         //-----------------creating modifying window-------------------
         if (show_cast_window)
             cast::showCastWindow(&show_cast_window, pageAt, gameData.getPage(pageAt), windowSize);
-
+        if (page_setting)
+            cast::showPageWindow(&page_setting, &pageAt, &gameData);
 
 
         //// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.

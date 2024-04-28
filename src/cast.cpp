@@ -91,21 +91,22 @@ void cast::showCastWindow(bool* p_open, int pageID, Page *pageInfo, ImVec2 windo
 	ImGui::End();
 }
 
-void cast::showWelcomePage(data* gameData, bool* show_welcome_window, bool* start_visual) {
+void cast::showWelcomePage(data* gameData, bool* show_welcome_window, bool* start_visual, bool* page_setting) {
 	ImGui::Begin("Welcome Page");
 	if (ImGui::Button("New", ImVec2(-FLT_MIN, 80))) {
 		gameData->newFile(start_visual);
 		*show_welcome_window = false;
+		*page_setting = true;
 	}
 	if(ImGui::Button("Open", ImVec2(-FLT_MIN, 80))) {
 		gameData->openFile(start_visual);
 		*show_welcome_window = false;
-		
+		*page_setting = true;
 	}
 	if(ImGui::Button("Demo", ImVec2(-FLT_MIN, 80))) {
 		gameData->openDemo(start_visual);
 		*show_welcome_window = false;
-		
+		*page_setting = true;
 	}
 	ImGui::End();
 }
@@ -117,6 +118,68 @@ void cast::showFileWindow(bool* p_open, int pageID, Page* pageInfo)
 	ImGui::End();
 }
 
+void cast::showPageWindow(bool* p_open, int* pageID, data* game_data) {
+	ImGui::Begin("Page Setting");
+
+	bool disabled = false;
+
+	if (*pageID == 0) {
+		disabled = true;
+		ImGui::BeginDisabled();
+	}
+	if(ImGui::Button("Last Page", ImVec2(100, 100))){
+		*pageID = *pageID - 1;
+	}
+	if(disabled) {
+		ImGui::EndDisabled();
+		disabled = false;
+	}
+
+	ImGui::SameLine();
+
+	if(*pageID >= game_data->pageSize() - 1) {
+		disabled = true;
+		ImGui::BeginDisabled();
+	}
+	if(ImGui::Button("Next Page", ImVec2(100, 100))) {
+		*pageID = *pageID + 1;
+	}
+	if (disabled) {
+		ImGui::EndDisabled();
+		disabled = false;
+	}
+
+	if(ImGui::Button("add Page", ImVec2(100, 100))) {
+		*pageID = *pageID + 1;
+		game_data->addPage(*pageID);
+	}
+
+	ImGui::SameLine();
+
+	if(ImGui::Button("copy Page", ImVec2(100, 100))) {
+		game_data->CopyPage(*pageID + 1, *(game_data->getPage(*pageID)));
+		*pageID = *pageID + 1;
+	}
+
+	ImGui::SameLine();
+
+	if(game_data->pageSize() == 1) {
+		disabled = true;
+		ImGui::BeginDisabled();
+	}
+	if (ImGui::Button("delete Page", ImVec2(100, 100))) {
+		game_data->deletePage(*pageID);
+		if(*pageID != 0) {
+			*pageID = *pageID - 1;
+		}
+	}
+	if (disabled) {
+		ImGui::EndDisabled();
+		disabled = false;
+	}
+	
+	ImGui::End();
+};
 
 
 // helper function from imgui_demo

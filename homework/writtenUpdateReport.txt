@@ -76,11 +76,18 @@ V0.2.3
     - Can view text right now (with deafult font)
     - Can modify text in the imgui window live now
 
+V0.3
+Updated Engine part:
+    - Page functions are now in used: last Page, next Page, add Page, copy Page, delete Page
+    - ImGui window for Page functions implemented
+Updated arichitecture:
+    - Cleaning up some file
+
 // todo
 	- less memory!
         - transparency for spirits
         - textboxs: font, font-size, color
-	- added background to the cast scene
+	- maybe add some image to the buttons?
 
 
 // bug unsolved
