@@ -9,15 +9,16 @@ void* GImGuiMarkerCallbackUserData = NULL;
 #define IMGUI_MARKER(section)  do { if (GImGuiMarkerCallback != NULL) GImGuiMarkerCallback(__FILE__, __LINE__, section, GImGuiMarkerCallbackUserData); } while (0)
 
 
-data gameStruc;
-
-void cast::showCastWindow(bool* p_open) {
+void cast::showCastWindow(bool* p_open, int pageID, Page *pageInfo, ImVec2 window_size) {
 	ImGuiWindowFlags window_flags = 0;
+	//Page pageInfo = gameData.getPage(pageID);
 
-	if(!ImGui::Begin("Cast", p_open, window_flags)) {
-		ImGui::End();
-		return;
-	}
+	//if(!ImGui::Begin("Cast", p_open, window_flags)) {
+	//	ImGui::End();
+	//	return;
+	//}
+
+	ImGui::Begin("Cast", p_open, window_flags);
 
 	const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
 	//ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + 100, main_viewport->WorkPos.y + 20), ImGuiCond_FirstUseEver);
@@ -28,10 +29,168 @@ void cast::showCastWindow(bool* p_open) {
 	IMGUI_MARKER("Spirit");
 	//ImGui::SetNextWindowCollapsed(false);
 	if (ImGui::CollapsingHeader("Spirit", ImGuiTreeNodeFlags_DefaultOpen)) {
-		for (const std::string spirit : gameStruc.spirits) {
-			ImGui::BulletText("(%s)", spirit);
+		for (int id = 0; id < pageInfo->spirits.size(); id++) {
+			ImGui::SetNextWindowCollapsed(false);
+			IMGUI_MARKER(pageInfo->spirits.at(id).name().c_str());
+			if (ImGui::TreeNode(pageInfo->spirits.at(id).name().c_str())) {
+				//ImGui::BulletText("(%s)", pageInfo->spirits.at(id).name().c_str());
+				/*static char buff[32] = "";
+				ImGui::InputText("testxt", buff, 32);*/
+
+				//ImGui::SeparatorText( pageInfo->getRealSpirits(id)->name().c_str());
+
+				auto nameStr = pageInfo->getRealSpirits(id)->getRealNickName();
+				auto renameLabel = "rename##" + pageInfo->spirits.at(id).getFileName();
+				ImGui::InputText(renameLabel.c_str(), nameStr);
+				///*ImGui::InputText("rename", &name_str,
+				//ImGuiInputTextFlags_CallbackResize, MyResizeCallback, (void*) &name_str);*/
+				//
+
+				// changing size and position
+				auto widthLabel = "width##" + pageInfo->spirits.at(id).getFileName();
+				ImGui::SliderFloat(widthLabel.c_str(), &pageInfo->getRealSpirits(id)->sizeRatio[0], 0.0f, 1.0f);
+				auto heightLabel = "height##" + pageInfo->spirits.at(id).getFileName();
+				ImGui::SliderFloat(heightLabel.c_str(), &pageInfo->getRealSpirits(id)->sizeRatio[1], 0.0f, 1.0f);
+				auto xLabel = "x-cord##" + pageInfo->spirits.at(id).getFileName();
+				ImGui::SliderFloat(xLabel.c_str(), &pageInfo->getRealSpirits(id)->positionRatio[0], 0.0f, 1.0f);
+				auto yLabel = "y-cord##" + pageInfo->spirits.at(id).getFileName();
+				ImGui::SliderFloat(yLabel.c_str(), &pageInfo->getRealSpirits(id)->positionRatio[1], 0.0f, 1.0f);
+
+				ImGui::TreePop();
+			}
+		}
+	}
+	IMGUI_MARKER("Textbox");
+	if (ImGui::CollapsingHeader("Textbox", ImGuiTreeNodeFlags_DefaultOpen)) {
+
+		for (auto id = 0; id < pageInfo->textboxs.size(); id++) {
+
+			if(ImGui::TreeNode(pageInfo->textboxs[id].name.c_str())) {
+
+				auto editLabel = "edit##" + pageInfo->textboxs[id].name;
+				auto contentStr = pageInfo->textboxs[id].getRealContent();
+				//ImGui::BulletText("%s", textbox.content.c_str());
+				ImGui::InputTextMultiline(editLabel.c_str(),contentStr);
+
+
+				auto xLabel = "x-cord##" + pageInfo->textboxs.at(id).name;
+				ImGui::SliderFloat(xLabel.c_str(), &pageInfo->getRealTextbox(id)->positionRatio[0], 0.0f, 1.0f);
+				auto yLabel = "y-cord##" + pageInfo->textboxs.at(id).name;
+				ImGui::SliderFloat(yLabel.c_str(), &pageInfo->getRealTextbox(id)->positionRatio[1], 0.0f, 1.0f);
+
+				ImGui::TreePop();
+			}
+			//ImGui::BulletText("(%s)", textboxs.c_str());
 		}
 	}
 
+	IMGUI_MARKER("Background");
+	if(ImGui::CollapsingHeader("Background", ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::Text("%s", pageInfo->backgroundName.c_str());
+	}
 	ImGui::End();
 }
+
+void cast::showWelcomePage(data* gameData, bool* show_welcome_window, bool* start_visual, bool* page_setting) {
+	ImGui::Begin("Welcome Page");
+	if (ImGui::Button("New", ImVec2(-FLT_MIN, 80))) {
+		gameData->newFile(start_visual);
+		*show_welcome_window = false;
+		*page_setting = true;
+	}
+	if(ImGui::Button("Open", ImVec2(-FLT_MIN, 80))) {
+		gameData->openFile(start_visual);
+		*show_welcome_window = false;
+		*page_setting = true;
+	}
+	if(ImGui::Button("Demo", ImVec2(-FLT_MIN, 80))) {
+		gameData->openDemo(start_visual);
+		*show_welcome_window = false;
+		*page_setting = true;
+	}
+	ImGui::End();
+}
+
+void cast::showFileWindow(bool* p_open, int pageID, Page* pageInfo)
+{
+	ImGui::Begin("FILE");
+
+	ImGui::End();
+}
+
+void cast::showPageWindow(bool* p_open, int* pageID, data* game_data) {
+	ImGui::Begin("Page Setting");
+
+	bool disabled = false;
+
+	if (*pageID == 0) {
+		disabled = true;
+		ImGui::BeginDisabled();
+	}
+	if(ImGui::Button("Last Page", ImVec2(100, 100))){
+		*pageID = *pageID - 1;
+	}
+	if(disabled) {
+		ImGui::EndDisabled();
+		disabled = false;
+	}
+
+	ImGui::SameLine();
+
+	if(*pageID >= game_data->pageSize() - 1) {
+		disabled = true;
+		ImGui::BeginDisabled();
+	}
+	if(ImGui::Button("Next Page", ImVec2(100, 100))) {
+		*pageID = *pageID + 1;
+	}
+	if (disabled) {
+		ImGui::EndDisabled();
+		disabled = false;
+	}
+
+	if(ImGui::Button("add Page", ImVec2(100, 100))) {
+		*pageID = *pageID + 1;
+		game_data->addPage(*pageID);
+	}
+
+	ImGui::SameLine();
+
+	if(ImGui::Button("copy Page", ImVec2(100, 100))) {
+		game_data->CopyPage(*pageID + 1, *(game_data->getPage(*pageID)));
+		*pageID = *pageID + 1;
+	}
+
+	ImGui::SameLine();
+
+	if(game_data->pageSize() == 1) {
+		disabled = true;
+		ImGui::BeginDisabled();
+	}
+	if (ImGui::Button("delete Page", ImVec2(100, 100))) {
+		game_data->deletePage(*pageID);
+		if(*pageID != 0) {
+			*pageID = *pageID - 1;
+		}
+	}
+	if (disabled) {
+		ImGui::EndDisabled();
+		disabled = false;
+	}
+	
+	ImGui::End();
+};
+
+
+// helper function from imgui_demo
+//int cast::MyResizeCallback(ImGuiInputTextCallbackData* data)
+//{
+//	if (data->EventFlag == ImGuiInputTextFlags_CallbackResize)
+//	{
+//		ImVector<char>* my_str = (ImVector<char>*)data->UserData;
+//		IM_ASSERT(my_str->begin() == data->Buf);
+//		my_str->resize(data->BufSize); // NB: On resizing calls, generally data->BufSize == data->BufTextLen + 1
+//		data->Buf = my_str->begin();
+//	}
+//	return 0;
+//}

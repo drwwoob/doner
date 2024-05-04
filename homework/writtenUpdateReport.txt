@@ -1,10 +1,99 @@
-Doner V0.1
+V0.1
 Editing engine part:
     - Created window and taskbar with buttons referencing the settings
 
 
-Doner V0.1.1
+V0.1.1
 Editing engine part:
     - Created the window inside the application that could show the Cast list (could be closed)
     - Updated SRS
     - Updated SDD
+
+V0.1.3
+Creating Visual part:
+    - Created visualization section to present the page to the user (not connected to the engine yet, the parts are presented as
+functions inside main instead of in the visualizing section)
+    	- which started with showing backgronud
+    - Updated structures for the project, including seperating the function and instances for pages, tools and cast
+    - Updated the structure on how the data would be stored
+    - Created demo page
+    - included library from stb_image.h
+
+V0.1.4
+Creatin engine part:
+    - Adding common item dialog window for "file new" and "file open" operations, now the user can choose the folder to create a file or the file to modify (not finished yet)
+    - Updating "data.cpp"'s methods and structure 
+    - Creating welcoming window for the user to start the program with choices on creating or opening a file
+    - Updating demo file
+    - Updating the logic to get file address
+    - Changed the connection between classes for reading and writing
+
+V0.1.5
+Updating Architectural part:
+    - Split Spirit and Textbox away from Cast, they are Classes now
+    - Adding encryption and decryption through each step
+    - Updating reading functions for data (not done yet)
+    - Updating how demo file is opened
+
+V0.1.5.2
+Updating engine part:
+    - Can read from files (FINALLY!) and theoriatically can write (with the export functions ready)
+    - The demo file is now functioning
+    - The function of "opening a file", "welcoming page will closed as a file is choosen", and "the file can be viewed as it is chosen" is implemented 
+Updating Visual part:
+    - Can view the background which is saved into the file
+	- the background will now fit the size of the window
+    - Adding default background
+
+V0.1.6
+Updating visual part:
+    - Now you can view spirit casts too!
+	- adding parts for class Spirit
+	- Need to work with memory wise though
+    - Able to read string and load it into spirit with encryption
+Updating demo:
+    - FABULOUS, FANCINATING drawing added to use as spirit case and cg
+
+V0.2
+Updated Visual part:
+    - Updates the logic of loading spirit
+    - Updates real-time modification on the shape and position of the image
+    - Can rename spirit in imgui's window too now
+    - Support saving now
+
+V0.2.1
+Update architecture part:
+    - Created Textbox class with all its contents
+    - Can read and load textbox information
+    - Can show textbox (not finished yet)
+
+V0.2.2
+Updated Memory part:
+    - The logic of loading texture changed
+    - Now at most 18 spirits could be loaded
+
+V0.2.3
+    - Can view text right now (with deafult font)
+    - Can modify text in the imgui window live now
+
+V0.3
+Updated Engine part:
+    - Page functions are now in used: last Page, next Page, add Page, copy Page, delete Page
+    - ImGui window for Page functions implemented
+Updated arichitecture:
+    - Cleaning up some file
+
+
+// todo
+	- less memory!
+        - transparency for spirits
+        - textboxs: font, font-size, color
+	- maybe add some image to the buttons?
+
+
+// bug unsolved
+	- leaving the application on the same page for about 2 minutes, the loaded texture started to diasapear (especially background)
+		- or is it because my pc is breaking down? ;)
+
+// default demo
+[sky.jpg{cast1#demoSpirit1.png#0.616000#1.200000#0.100000#0.300000##textbox#dbox.png#0.900000#0.350000#0.000000#0.600000##}{text1#Welcome to Doner!#0.7#0.7##0#0#0#1#1##}]

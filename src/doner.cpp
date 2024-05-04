@@ -1,9 +1,10 @@
-// doner.cpp : Defines the entry point for the application.
+﻿// doner.cpp : Defines the entry point for the application.
 //
 
 #include "framework.h"
 #include "doner.h"
 #include "Tools.h"
+#include "data.h"
 
 #define MAX_LOADSTRING 100
 
@@ -18,6 +19,43 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
+// ------------------some default----------------
+int pageAt = 0;
+//TCHAR buffer[MAX_PATH] = { 0 };
+////GetModuleFileName(NULL, buffer, MAX_PATH);
+//std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
+//auto wpath = std::wstring(buffer).substr(0, pos);
+//
+////setup converter
+//using convert_type = std::codecvt_utf8<wchar_t>;
+//std::wstring_convert<convert_type, wchar_t> converter;
+//
+////use converter (.to_bytes: wstr->str, .from_bytes: str->wstr)
+//std::string Path = converter.to_bytes(wpath);
+////std::string Path(wpath.begin(), wpath.end());
+//std::string demoLocation = Path.append("\\..\\..\\doner\\projects storage\\demo\\");
+auto PathLoc = std::string(__FILE__).find_last_of("\\/");
+auto Path = std::string(__FILE__).substr(0, PathLoc).append("\\..\\projects storage\\");
+auto DefaultBackground = Path + "src\\defaultBackground.jpg";
+//auto w_DefaultB = std::wstring(DefaultBackground.begin(), DefaultBackground.end()).c_str();
+data gameData = data(Path);
+
+// the first one in this list is the background texture
+std::vector<texture> textureList(20);
+
+//
+//Gdiplus::Bitmap* pBackgroundImage = nullptr;
+//wchar_t szImagePath[MAX_PATH] = L"";
+//
+//HBITMAP g_hBackgroundBitmap = (HBITMAP)LoadImage(NULL, L"C:\\Users\\14631\\OneDrive\\Desktop\\DT\\New Folder\\drwwoob\\doner\\projects storage\\defaultBackrgound.jpg", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+//bool a = (g_hBackgroundBitmap == NULL);
+
+
+bool startVisual = false;
+//int my_image_width = 0;
+//int my_image_height = 0;
+//ID3D11ShaderResourceView* my_texture = NULL;
+//bool ret;
 
 
 //
@@ -162,38 +200,51 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //    return 0;
 //}
 
-// Message handler for about box.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    UNREFERENCED_PARAMETER(lParam);
-    switch (message)
-    {
-    case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
-
-    case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-        {
-            EndDialog(hDlg, LOWORD(wParam));
-            return (INT_PTR)TRUE;
-        }
-        switch (LOWORD((wParam))) {
-		case IDM_FILE_NEW:
-            break;
-		case IDM_FILE_OPEN:
-            break;
-	    case IDM_FILE_SAVE:
-            break;
-        case IDM_FILE_EXIT:
-            DestroyWindow(hDlg);
-        	break;
-		default:
-            return DefWindowProc(hDlg, message, wParam, lParam);
-        }
-        break;
-    }
-    return (INT_PTR)FALSE;
-}
+// set the loading texture
+//void setTexture() {
+//    my_image_width = 0;
+//    my_image_height = 0;
+//    my_texture = NULL;
+//    ret = Tools::LoadTextureFromFile(gameData.getPage(pageAt).backgroundName.c_str(), &my_texture, &my_image_width, &my_image_height);
+//    IM_ASSERT(ret);
+//}
+//
+//// Message handler for about box.
+//INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//    UNREFERENCED_PARAMETER(lParam);
+//    switch (message)
+//    {
+//    case WM_INITDIALOG:
+//        return (INT_PTR)TRUE;
+//
+//    case WM_COMMAND:
+//        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+//        {
+//            EndDialog(hDlg, LOWORD(wParam));
+//            return (INT_PTR)TRUE;
+//        }
+//        switch (LOWORD((wParam))) {
+//		case IDM_FILE_NEW:
+//            break;
+//		case IDM_FILE_OPEN:
+//            break;
+//	    case IDM_FILE_SAVE:
+//            break;
+//        case IDM_FILE_EXIT:
+//            DestroyWindow(hDlg);
+//        	break;
+//    case IDM_SCENE_PAGE_NEXT:
+//			pageAt += 1;
+//
+//            break;
+//		default:
+//            return DefWindowProc(hDlg, message, wParam, lParam);
+//        }
+//        break;
+//    }
+//    return (INT_PTR)FALSE;
+//}
 
 
 //from imgui examples 
@@ -266,6 +317,66 @@ void CleanupRenderTarget()
     if (g_mainRenderTargetView) { g_mainRenderTargetView->Release(); g_mainRenderTargetView = nullptr; }
 }
 
+// //Function to paint the background image
+//void PaintBackground(HWND hWnd, HDC hdc) {
+//    if (g_hBackgroundBitmap != NULL) {
+//        RECT clientRect;
+//        GetClientRect(hWnd, &clientRect);
+//        HDC hdcMem = CreateCompatibleDC(hdc);
+//        HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdcMem, g_hBackgroundBitmap);
+//        StretchBlt(hdc, 0, 0, clientRect.right, clientRect.bottom, hdcMem, 0, 0, clientRect.right, clientRect.bottom, SRCCOPY);
+//        SelectObject(hdcMem, hOldBitmap);
+//        DeleteDC(hdcMem);
+//    }
+//}
+
+//bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height)
+//{
+//    // Load from disk into a raw RGBA buffer
+//    int image_width = 0;
+//    int image_height = 0;
+//    unsigned char* image_data = stbi_load(filename, &image_width, &image_height, NULL, 4);
+//    if (image_data == NULL)
+//        return false;
+//
+//    // Create texture
+//    D3D11_TEXTURE2D_DESC desc;
+//    ZeroMemory(&desc, sizeof(desc));
+//    desc.Width = image_width;
+//    desc.Height = image_height;
+//    desc.MipLevels = 1;
+//    desc.ArraySize = 1;
+//    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+//    desc.SampleDesc.Count = 1;
+//    desc.Usage = D3D11_USAGE_DEFAULT;
+//    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+//    desc.CPUAccessFlags = 0;
+//
+//    ID3D11Texture2D* pTexture = NULL;
+//    D3D11_SUBRESOURCE_DATA subResource;
+//    subResource.pSysMem = image_data;
+//    subResource.SysMemPitch = desc.Width * 4;
+//    subResource.SysMemSlicePitch = 0;
+//    g_pd3dDevice->CreateTexture2D(&desc, &subResource, &pTexture);
+//
+//    // Create texture view
+//    D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+//    ZeroMemory(&srvDesc, sizeof(srvDesc));
+//    srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+//    srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+//    srvDesc.Texture2D.MipLevels = desc.MipLevels;
+//    srvDesc.Texture2D.MostDetailedMip = 0;
+//    g_pd3dDevice->CreateShaderResourceView(pTexture, &srvDesc, out_srv);
+//    pTexture->Release();
+//
+//    *out_width = image_width;
+//    *out_height = image_height;
+//    stbi_image_free(image_data);
+//
+//    return true;
+//}
+
+
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -275,6 +386,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
 // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
 // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
@@ -288,18 +400,72 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         g_ResizeWidth = (UINT)LOWORD(lParam); // Queue resize
         g_ResizeHeight = (UINT)HIWORD(lParam);
         return 0;
+    //case WM_CREATE:
+    //    // Load the background image
+    //    //pBackgroundImage = new Gdiplus::Bitmap(L"background.jpg");
+    //    break;
+
+    //case WM_ERASEBKGND:
+    //{
+    //    // Draw the background image
+    //    RECT clientRect;
+    //    GetClientRect(hWnd, &clientRect);
+    //    PAINTSTRUCT ps;
+    //    HDC hdc = BeginPaint(hWnd, &ps);
+    //    Gdiplus::Graphics graphics(hdc);
+    //    graphics.DrawImage(pBackgroundImage, 0, 0, clientRect.right, clientRect.bottom);
+    //    EndPaint(hWnd, &ps);
+    //    return TRUE; // Tell Windows that we've erased the background
+    //}
+
     case WM_SYSCOMMAND:
         if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
             return 0;
         break;
+    case WM_PAINT:
+    {
+        /*PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);
+        PaintBackground(hWnd, hdc);
+        EndPaint(hWnd, &ps);*/
+    }
+        break;
+    case WM_COMMAND:
+        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+        {
+            EndDialog(hWnd, LOWORD(wParam));
+            return (INT_PTR)TRUE;
+        }
+        switch (LOWORD((wParam))) {
+        case IDM_FILE_NEW:
+            gameData.newFile(&startVisual);
+            break;
+		case IDM_FILE_OPEN:
+            break;
+        case IDM_FILE_SAVE:
+            gameData.save();
+            break;
+        case IDM_FILE_EXIT:
+            DestroyWindow(hWnd);
+            break;
+        case IDM_SCENE_PAGE_NEXT:
+            pageAt += 1;
+
+            break;
+        default:
+            return DefWindowProc(hWnd, msg, wParam, lParam);
+        }
+        break;
+
     case WM_DESTROY:
+       /* if (g_hBackgroundBitmap != NULL) {
+            DeleteObject(g_hBackgroundBitmap);
+        }*/
         ::PostQuitMessage(0);
         return 0;
     }
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
-
-
 
 // Main code
 //int main(int, char**)
@@ -308,6 +474,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+
+    // for background
+    // Initialize GDI+
+    Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+    ULONG_PTR gdiplusToken;
+    GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
     // Create application window
     //ImGui_ImplWin32_EnableDpiAwareness();
 
@@ -319,6 +491,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Doner", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
 
     // Initialize Direct3D
+
     if (!CreateDeviceD3D(hwnd))
     {
         CleanupDeviceD3D();
@@ -343,7 +516,55 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
-    ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
+    ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext); 
+
+
+
+
+    //--------------------initialize image texture--------------
+
+
+    //if (background_name.empty()) {
+    //    //ImGui::GetBackgroundDrawList()->
+    //}
+    //else {
+
+	//int my_image_width = 0;
+	//int my_image_height = 0;
+	//ID3D11ShaderResourceView* my_texture = NULL;
+	//bool ret = Tools::LoadTextureFromFile(background_name.c_str(), &my_texture, &my_image_width, &my_image_height);
+
+	// ---------------------need to change------------------------
+    // the follow code are for the background to show, name need to be change
+
+    RECT rect;
+    ImVec2 windowSize(1, 1);
+    if (GetWindowRect(hwnd, &rect))
+    {
+        windowSize = ImVec2(rect.right - rect.left, rect.bottom - rect.top);
+    }
+
+	//bool ret = Page::LoadTextureFromFile(DefaultBackground.c_str(), &my_texture, &my_image_width, &my_image_height, g_pd3dDevice);
+	//IM_ASSERT(ret);
+	//ImGui::GetBackgroundDrawList()->AddImage((void*)my_texture,ImVec2(0, 0),
+ //       windowSize, ImVec2(0, 0), ImVec2(1, 1));
+	//ImGui::Image((void*)my_texture, ImVec2(my_image_width, my_image_height));
+	//}
+
+
+    // --------------------------get data info--------------------------------
+    pageAt = gameData.leaveAt;
+
+    //setup Font
+	gameData.setFont(io.Fonts->AddFontDefault());
+
+
+
+    // ------------------------- initial textureList--------------------
+    // ----------------there's a limit of how many cast can be loaded now, maybe this could be dynamic in the future--------
+    //std::fill(textureList.begin(), textureList.begin() + 20);
+    //moved to the initiated place
+
 
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
@@ -353,7 +574,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // - Use '#define IMGUI_ENABLE_FREETYPE' in your imconfig file to use Freetype for higher quality font rendering.
     // - Read 'docs/FONTS.md' for more instructions and details.
     // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
-    //io.Fonts->AddFontDefault();
     //io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
@@ -367,10 +587,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     //-----------------------menu window--------------------------
+    bool show_welcome_window = true;
     bool show_cast_window = true;
+    bool view_data = false;
+    bool page_setting = false;
 
 
-    // Main loop
+    // ------------------------Main loop--------------------------------
     bool done = false;
     while (!done)
     {
@@ -393,6 +616,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             CleanupRenderTarget();
             g_pSwapChain->ResizeBuffers(0, g_ResizeWidth, g_ResizeHeight, DXGI_FORMAT_UNKNOWN, 0);
             g_ResizeWidth = g_ResizeHeight = 0;
+
+			//// get the size
+   //         windowSize = ImVec2(rect.right - rect.left, rect.bottom - rect.top);
+
+
             CreateRenderTarget();
         }
 
@@ -401,13 +629,58 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
+
+        // ---------------testing center -------------------------
+        //if(a) {
+        //     ImGui::Begin("testing");
+        //     ImGui::Text("%s", Path.c_str());
+        //     ImGui::Text("%s", DefaultBackground.c_str());
+        //     ImGui::Text("C:\\Users\\14631\\OneDrive\\Desktop\\DT\\New Folder\\drwwoob\\doner\\projects storage\\defaultBackrgound.jpg");
+        //     //ImGui::Text("==%s", w_DefaultB);
+        //     ImGui::End();
+        //     //auto b = w_DefaultB;
+        //}
+
+
+        // -------------------welcoming scene ------------------
+        if (show_welcome_window) {
+            cast::showWelcomePage(&gameData, &show_welcome_window, &startVisual, &page_setting);
+        }
+
         //// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
-        //-----------------creating window-------------------
+        //----------------showing the page---------------------
+        //gameData.getPage(pageAt).visualizePage();
+
+
+        if (GetWindowRect(hwnd, &rect)) {
+            windowSize = ImVec2(rect.right - rect.left, rect.bottom - rect.top);
+        }
+
+
+        if (startVisual) {
+            gameData.visualizeData3(g_pd3dDevice, windowSize, &textureList, pageAt);
+
+
+            //gameData.vidualizeData2(LoadTextureFromFile);
+            //gameData.visualizeData(hwnd, g_hBackgroundBitmap);
+
+        }
+        else {
+            Page::showBackGround(DefaultBackground, windowSize, g_pd3dDevice, textureList.at(0).t, &textureList.at(0).w, &textureList.at(0).h);
+        }
+
+
+        //ImGui::GetBackgroundDrawList()->AddImage((void*)my_texture, ImVec2(0, 0), ImVec2(my_image_width, my_image_height), ImVec2(0, 0), ImVec2(1, 1));
+
+        //-----------------creating modifying window-------------------
         if (show_cast_window)
-            cast::showCastWindow(&show_cast_window);
+            cast::showCastWindow(&show_cast_window, pageAt, gameData.getPage(pageAt), windowSize);
+        if (page_setting)
+            cast::showPageWindow(&page_setting, &pageAt, &gameData);
+
 
         //// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
         //{
@@ -432,17 +705,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         //    ImGui::End();
         //}
 
-        //// 3. Show another simple window.
-        //if (show_another_window)
-        //{
-        //    ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        //    ImGui::Text("Hello from another window!");
-        //    if (ImGui::Button("Close Me"))
-        //        show_another_window = false;
-        //    ImGui::End();
-        //}
-
-        // Rendering
+        // Rendering 
         ImGui::Render();
         const float clear_color_with_alpha[4] = { clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w };
         g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, nullptr);
@@ -451,12 +714,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         g_pSwapChain->Present(1, 0); // Present with vsync
         //g_pSwapChain->Present(0, 0); // Present without vsync
+
+    //clean up texture
+        for (int i = 0; i < textureList.size(); i++) {
+            if (textureList.at(i).t != nullptr)
+            {
+                textureList.at(i).t->Release();
+                textureList.at(i).t = nullptr;
+            }
+        }
     }
 
     // Cleanup
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
+    Gdiplus::GdiplusShutdown(gdiplusToken);
+
 
     CleanupDeviceD3D();
     ::DestroyWindow(hwnd);

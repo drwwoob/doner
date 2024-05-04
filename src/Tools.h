@@ -7,12 +7,28 @@
 #include "../imgui Support/imstb_rectpack.h"
 #include "../imgui Support/imstb_textedit.h"
 #include "../imgui Support/imstb_truetype.h"
+#include "../imgui Support/imgui_stdlib.h"
 #include <d3d11.h>
+#include <string>
 #pragma comment(lib, "d3d11.lib")
+
+//image loading helper
+
 
 //#include "cast.h"
 
 class Tools
 {
+public:
+	void pageBar();
+	static void setBackground(std::string background_name);
+	static std::string wordEncrypt(std::string word);
+	//helper function
 };
 
+
+struct texture {
+	int w = 0;
+	int h = 0;
+	ID3D11ShaderResourceView* t = NULL;
+};

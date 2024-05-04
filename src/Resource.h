@@ -38,6 +38,7 @@
 #define IDM_SCENE_CAST_ADDCAST  40020
 #define IDM_SCENE_CAST_DELETECAST   40021
 #define IDM_SCENE_CAST_ADDTEXTBOX   40022
+#define IDM_SCENE_PAGE_WINDOW	40023
 #endif
 // Next default values for new objects
 //

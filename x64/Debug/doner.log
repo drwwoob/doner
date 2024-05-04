@@ -1,2 +1,7 @@
-﻿  cast.cpp
+﻿  imgui_demo.cpp
+  cast.cpp
+C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\doner\src\data.h(26,36): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'src/cast.cpp')
+  
+  Generating Code...
   doner.vcxproj -> C:\Users\14631\OneDrive\Desktop\DT\New folder\drwwoob\x64\Debug\doner.exe
